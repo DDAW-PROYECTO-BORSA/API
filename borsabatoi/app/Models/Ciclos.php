@@ -17,8 +17,8 @@ class Ciclos extends Model
         return $this->belongsTo(Familias::class, 'idFamilia', 'id');
     }
 
-    public function alumnos()
+    function alumnos()
     {
-        return $this->belongsToMany(Alumno::class, 'alumnosCiclos', 'idCiclo', 'idUsuario');
+        return $this->belongsToMany(Alumno::class, 'alumnosCiclos', 'idCiclo', 'idUsuario')->withPivot('finalizacion', 'validado');
     }
 }
