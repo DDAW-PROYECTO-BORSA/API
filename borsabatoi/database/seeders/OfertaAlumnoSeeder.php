@@ -21,8 +21,7 @@ class OfertaAlumnoSeeder extends Seeder
         foreach ($ofertas as $oferta) {
             // Seleccion aleatoria de los alumnos
             $alumnos = Alumnos::where('idCiclo', $oferta->ciclos());
-            $alumnoIndex = rand(0, count($alumnos) - 1);
-            $alumnoAsignado = $alumnos[$alumnoIndex];
+            $alumnoAsignado = $alumnos->inRandomOrder()->first();
 
             $oferta->alumnos()->attach($alumnoAsignado->id);
         }

@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('ciclos', function (Blueprint $table) {
             $table->id();
             $table->string('ciclo');
+            $table->string('vliteral');
+            $table->string('cliteral');
             $table->unsignedBigInteger('idFamilia');
             $table->unsignedBigInteger('responsable');
 

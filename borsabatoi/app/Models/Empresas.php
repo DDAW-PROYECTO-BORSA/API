@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Empresas extends Model
 {
     use HasFactory;
+    public $timestamps = false;
 
     function user(){
         return $this->belongsTo(User::class, 'idUsuario', 'id');

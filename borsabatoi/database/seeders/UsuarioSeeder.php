@@ -15,11 +15,11 @@ class UsuarioSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'nombre' => 'admin',
+            'name' => 'admin',
             'email' => 'admin@borsabatoi.es',
             'password' => Hash::make('adminpassword'),
             'direccion' => 'Carrer Societat Unió Musical, 8, 03802 Alcoi, Alicante',
-            'rol' => 'admin'
+            'rol' => 'administrador'
         ]);
 
         User::factory(99)->create();

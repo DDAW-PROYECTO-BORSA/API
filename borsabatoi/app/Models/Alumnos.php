@@ -8,13 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Alumnos extends Model
 {
     use HasFactory;
+    public $timestamps = false;
 
     function user(){
-        return $this->belongsTo(User::class, 'idUsuario', 'id');
+        return $this->belongsTo(User::class, 'id', 'idUsuario');
     }
 
     function ciclos()
     {
-        return $this->belongsToMany(Ciclo::class, 'alumnosCiclos', 'idUsuario', 'idCiclo')->withPivot('finalizacion', 'validado');
+        return $this->belongsToMany(Ciclos::class, 'alumnosCiclos', 'idUsuario', 'idCiclo')->withPivot('finalizacion', 'validado');
     }
 }

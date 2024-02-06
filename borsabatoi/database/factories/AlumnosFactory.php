@@ -17,7 +17,11 @@ class AlumnosFactory extends Factory
      */
     public function definition(): array
     {
-        $user = User::where('rol', 'alumno')->inRandomOrder()->first() ?: User::factory()->create(['rol' => 'alumno']);
+        $user = User::where('rol', 'alumno')
+            ->whereDoesntHave('alumno', function ($query) {
+            })
+            ->inRandomOrder()
+            ->first() ?: User::factory()->create(['rol' => 'alumno']);
 
     return [
         'idUsuario' => $user->id,
