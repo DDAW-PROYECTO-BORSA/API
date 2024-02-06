@@ -13,6 +13,6 @@ class Familias extends Model
 
 
     public function ciclo(){
-        return $this->hasOne(Ciclos::class, 'id', 'idFamilia');
+        return $this->hasOne(Ciclos::class, 'idFamilia', 'id');
     }
 }

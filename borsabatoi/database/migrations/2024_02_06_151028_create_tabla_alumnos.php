@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('apellido');
             $table->text('CV');
 
-            $table->primary(['idAlumno']);
+            $table->primary(['idUsuario']);
 
-            $table->foreign('idAlumno')->references('id')->on('users');
+            $table->foreign('idUsuario')->references('id')->on('users');
 
         });
     }

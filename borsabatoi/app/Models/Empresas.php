@@ -11,6 +11,6 @@ class Empresas extends Model
     public $timestamps = false;
 
     function user(){
-        return $this->belongsTo(User::class, 'idUsuario', 'id');
+        return $this->belongsTo(User::class, 'id', 'idUsuario');
     }
 }

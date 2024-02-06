@@ -11,11 +11,11 @@ class Ciclos extends Model
     public $timestamps = false;
 
     function responsable(){
-        return $this->belongsTo(User::class, 'responsable', 'id');
+        return $this->belongsTo(User::class, 'id', 'responsable');
     }
 
     function familia(){
-        return $this->belongsTo(Familias::class, 'idFamilia', 'id');
+        return $this->belongsTo(Familias::class, 'id', 'idFamilia');
     }
 
     function alumnos()

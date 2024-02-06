@@ -9,12 +9,19 @@ class Alumnos extends Model
 {
     use HasFactory;
     public $timestamps = false;
+    protected $primaryKey = 'idUsuario';
+
 
     function user(){
         return $this->belongsTo(User::class, 'id', 'idUsuario');
     }
 
     function ciclos()
+    {
+        return $this->belongsToMany(Ciclos::class, 'alumnosCiclos', 'idUsuario', 'idCiclo')->withPivot('finalizacion', 'validado');
+    }
+
+    function ofertas()
     {
         return $this->belongsToMany(Ciclos::class, 'alumnosCiclos', 'idUsuario', 'idCiclo')->withPivot('finalizacion', 'validado');
     }

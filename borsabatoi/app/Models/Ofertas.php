@@ -12,11 +12,11 @@ class Ofertas extends Model
 
     public function alumnos()
     {
-        return $this->belongsToMany(Alumnos::class, 'alumnosOfertas', 'idOferta', 'idUsuario');
+        return $this->belongsToMany(Alumnos::class, 'ofertasAlumnos', 'idOferta', 'idUsuario');
     }
 
     public function ciclos()
     {
-        return $this->belongsToMany(Ciclos::class, 'ciclosOfertas', 'idOferta', 'idCiclo');
+        return $this->belongsToMany(Ciclos::class, 'ofertasCiclos', 'idOferta', 'idCiclo');
     }
 }

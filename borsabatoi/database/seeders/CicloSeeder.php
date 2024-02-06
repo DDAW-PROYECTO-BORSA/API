@@ -16,7 +16,7 @@ class CicloSeeder extends Seeder
     {
         $jsonFile = Storage::disk('public')->path('ciclos.json');
         $ciclos = json_decode(file_get_contents($jsonFile), true);
-        $responsable = User::where('rol','representante')->first();
+        $responsable = User::where('rol','responsable')->first();
 
         foreach ($ciclos as $ciclo) {
             Ciclos::create([

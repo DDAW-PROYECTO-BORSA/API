@@ -17,10 +17,10 @@ return new class extends Migration
             $table->string('contacto');;
             $table->string('web')->nullable();
 
-            $table->primary(['idEmpresa']);
+            $table->primary(['idUsuario']);
 
 
-            $table->foreign('idEmpresa')->references('id')->on('users');
+            $table->foreign('idUsuario')->references('id')->on('users');
         });
     }
 

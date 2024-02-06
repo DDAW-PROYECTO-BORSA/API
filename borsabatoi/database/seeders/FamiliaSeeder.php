@@ -18,6 +18,7 @@ class FamiliaSeeder extends Seeder
         $familias = json_decode(file_get_contents($jsonFile), true);
 
         foreach ($familias as $familia) {
+
             Familias::create([
                 'id' => $familia['id'],
                 'cliteral' => $familia['cliteral'],

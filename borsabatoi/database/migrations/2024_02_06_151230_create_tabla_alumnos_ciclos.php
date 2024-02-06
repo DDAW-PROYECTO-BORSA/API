@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('alumnos_ciclos', function (Blueprint $table) {
+        Schema::create('alumnosCiclos', function (Blueprint $table) {
             $table->unsignedBigInteger('idUsuario');
             $table->unsignedBigInteger('idCiclo');
             $table->date('finalizacion')->nullable();
-            $table->boolean('is_validado')->default(false);
+            $table->boolean('validado')->default(false);
 
             $table->primary(['idUsuario','idCiclo']);
 
@@ -30,6 +30,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('alumnos_ciclos');
+        Schema::dropIfExists('alumnosCiclos');
     }
 };

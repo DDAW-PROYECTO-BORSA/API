@@ -17,8 +17,9 @@ class EmpresasFactory extends Factory
      */
     public function definition(): array
     {
-        $user = User::where('rol', 'empresa')->inRandomOrder()->first() ?: User::factory()->create(['rol' => 'empresa']);
+        $user = User::factory()->create(['rol' => 'empresa']);
 
+        
         return [
             'idUsuario' => $user->id,
             'CIF' => $this->faker->numerify('B########'),
