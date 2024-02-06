@@ -19,7 +19,7 @@ return new class extends Migration
 
 
             $table->foreign('idOferta')->references('id')->on('ofertas');
-            $table->foreign('idUsuario')->references('id')->on('usuario');
+            $table->foreign('idUsuario')->references('id')->on('users');
         });
     }
 
