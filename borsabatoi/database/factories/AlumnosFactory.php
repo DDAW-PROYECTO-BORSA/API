@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,7 +22,7 @@ class AlumnosFactory extends Factory
     return [
         'idUsuario' => $user->id,
         'apellido' => $this->faker->lastName(),
-        'CV' => $this->faker->paragraph() 
+        'CV' => $this->faker->paragraph()
     ];
     }
 }
