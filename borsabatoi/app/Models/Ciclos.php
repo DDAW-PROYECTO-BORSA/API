@@ -10,12 +10,12 @@ class Ciclos extends Model
     use HasFactory;
     public $timestamps = false;
 
-    function responsable(){
-        return $this->belongsTo(User::class, 'id', 'responsable');
+    function usuarioResponsable(){
+        return $this->belongsTo(User::class, 'responsable', 'id');
     }
 
     function familia(){
-        return $this->belongsTo(Familias::class, 'id', 'idFamilia');
+        return $this->belongsTo(Familias::class, 'idFamilia', 'id');
     }
 
     function alumnos()

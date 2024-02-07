@@ -50,4 +50,8 @@ class User extends Authenticatable
     public function empresa(){
         return $this->hasOne(Empresas::class, 'idUsuario', 'id');
     }
+
+    function ciclosComoResponsable(){
+        return $this->hasOne(Ciclos::class, 'responsable', 'id');
+    }
 }
