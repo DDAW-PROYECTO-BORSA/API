@@ -20,9 +20,7 @@ class CicloSeeder extends Seeder
 
 
         foreach ($ciclos as $ciclo) {
-            $responsablesDisponibles = User::where('rol', 'responsable')
-                ->whereDoesntHave('ciclosComoResponsable')
-                ->pluck('id');
+            $responsablesDisponibles = User::where('rol', 'responsable')->inRandomOrder()->pluck('id');
                 if ($responsablesDisponibles->isNotEmpty()) {
                     // Tomar el primer ID de responsable disponible
                     $responsableId = $responsablesDisponibles->first();

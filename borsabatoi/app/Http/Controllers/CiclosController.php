@@ -31,8 +31,7 @@ class CiclosController extends Controller
 
     public function edit(Ciclos $ciclo)
     {
-        $responsables = User::where('rol', 'responsable')
-        ->whereDoesntHave('ciclosComoResponsable')->get(); 
+        $responsables = User::where('rol', 'responsable')->inRandomOrder()->get(); 
         
         return view('ciclos.edit', compact('ciclo', 'responsables'));
     }
