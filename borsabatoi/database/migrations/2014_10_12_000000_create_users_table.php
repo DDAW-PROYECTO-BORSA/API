@@ -20,6 +20,8 @@ return new class extends Migration
             $table->rememberToken();
             $table->string('direccion');
             $table->string('rol');
+            $table->boolean('activado')->default(false);
+
             $table->timestamps();
 
 

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\EmpresaController;
+use App\Http\Controllers\Api\AlumnosController;
+
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Resources\EmpresaCollection;
 use App\Http\Resources\EmpresaResource;
@@ -24,4 +26,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('empresas',EmpresaController::class);
+Route::apiResource('alumnos', AlumnosController::class);
+
 Route::post('login', [LoginController::class,'login']);
+
+Route::put('/alumnos/activar/{id}', [AlumnosController::class, 'activarCuenta'])->name('alumno.activarCuenta');
