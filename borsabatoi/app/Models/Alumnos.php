@@ -13,7 +13,7 @@ class Alumnos extends Model
 
 
     function user(){
-        return $this->belongsTo(User::class, 'id', 'idUsuario');
+        return $this->belongsTo(User::class, 'idUsuario', 'id');
     }
 
     function ciclos()
