@@ -87,6 +87,7 @@ class AlumnosController extends Controller
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->direccion = $request->direccion;
+        $user->activado = 1;
         $user->update();
 
         $alumno->apellido = $request->apellido;
@@ -102,5 +103,12 @@ class AlumnosController extends Controller
     public function destroy(int $id)
     {
         //
+    }
+
+    public function activarCuenta($id) {
+        $user = User::findOrFail($id);
+        $user->activado = 1;
+        $user->save();
+    
     }
 }

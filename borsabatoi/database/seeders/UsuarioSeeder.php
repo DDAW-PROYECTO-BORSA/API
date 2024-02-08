@@ -19,7 +19,8 @@ class UsuarioSeeder extends Seeder
             'email' => 'admin@borsabatoi.es',
             'password' => Hash::make('adminpassword'),
             'direccion' => 'Carrer Societat Unió Musical, 8, 03802 Alcoi, Alicante',
-            'rol' => 'administrador'
+            'rol' => 'administrador',
+            'activado' => 1
         ]);
 
         User::factory(10)->create();
