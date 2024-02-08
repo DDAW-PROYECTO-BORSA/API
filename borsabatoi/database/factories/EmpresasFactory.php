@@ -19,7 +19,6 @@ class EmpresasFactory extends Factory
     {
         $user = User::factory()->create(['rol' => 'empresa']);
 
-        
         return [
             'idUsuario' => $user->id,
             'CIF' => $this->faker->numerify('B########'),
