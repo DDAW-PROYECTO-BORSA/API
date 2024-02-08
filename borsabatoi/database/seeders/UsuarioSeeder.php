@@ -22,6 +22,6 @@ class UsuarioSeeder extends Seeder
             'rol' => 'administrador'
         ]);
 
-        User::factory(99)->create();
+        User::factory(10)->create();
     }
 }
