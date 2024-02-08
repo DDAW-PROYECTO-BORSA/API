@@ -8,6 +8,7 @@ use App\Http\Resources\AlumnoCollection;
 use App\Http\Resources\AlumnoResource;
 use App\Models\Alumnos;
 use App\Models\User;
+use App\Models\Ciclos;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -45,6 +46,17 @@ class AlumnosController extends Controller
             // Guardar el alumno asociada al usuario
             $user->alumno()->save($alumno);
             $alumno = Alumnos::findOrFail($user->id);
+
+
+            foreach ($request->ciclosA as $cicloA) {
+
+                $ciclo = Ciclos::findOrFail($cicloA['id']);
+
+                $alumno->ciclos()->attach($ciclo->id, [
+                    'finalizacion' => $cicloA['finalizacion'],
+                ]);                
+                // Mail al admin
+            }
 
 
             return response()->json(new AlumnoResource($alumno),201);
