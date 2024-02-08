@@ -12,6 +12,8 @@ use App\Models\Ciclos;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ValidarCorreoMail;
 
 class AlumnosController extends Controller
 {
@@ -47,15 +49,14 @@ class AlumnosController extends Controller
             $user->alumno()->save($alumno);
             $alumno = Alumnos::findOrFail($user->id);
 
+            Mail::to($user->email)->send(new ValidarCorreoMail($user));
 
             foreach ($request->ciclosA as $cicloA) {
-
                 $ciclo = Ciclos::findOrFail($cicloA['id']);
-
                 $alumno->ciclos()->attach($ciclo->id, [
                     'finalizacion' => $cicloA['finalizacion'],
                 ]);                
-                // Mail al admin
+                // Notificacion para validar el ciclo
             }
 
 
