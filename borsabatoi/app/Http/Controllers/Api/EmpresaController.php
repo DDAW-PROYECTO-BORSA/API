@@ -86,8 +86,15 @@ class EmpresaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $id)
+    public function destroy(string $id)
     {
 
+        $empresa = Empresas::find($id);
+        $empresa->delete();
+
+        $user = User::find($id);
+        $user->delete();
+
+        return response()->json(null, 204);
     }
 }
