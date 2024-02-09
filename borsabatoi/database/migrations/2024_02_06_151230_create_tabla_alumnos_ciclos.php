@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('alumnosCiclos', function (Blueprint $table) {
             $table->unsignedBigInteger('idUsuario');
             $table->unsignedBigInteger('idCiclo');
-            $table->date('finalizacion')->nullable();
+            $table->string('finalizacion')->nullable();
             $table->boolean('validado')->default(false);
 
             $table->primary(['idUsuario','idCiclo']);

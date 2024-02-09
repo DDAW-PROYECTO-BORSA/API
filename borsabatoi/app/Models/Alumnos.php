@@ -9,11 +9,20 @@ class Alumnos extends Model
 {
     use HasFactory;
     public $timestamps = false;
+    protected $table = 'alumnos';
     protected $primaryKey = 'idUsuario';
+    protected $fillable = [
+        'idUsuario',
+        'apellido',
+        'cv',
+    ];
+    protected $hidden = [
+        'contacto',
+    ];
 
 
     function user(){
-        return $this->belongsTo(User::class, 'id', 'idUsuario');
+        return $this->belongsTo(User::class, 'idUsuario', 'id');
     }
 
     function ciclos()
