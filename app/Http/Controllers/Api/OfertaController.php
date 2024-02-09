@@ -12,6 +12,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Notifications\ValidarOfertaNotification;
 
 class OfertaController extends Controller
 {
@@ -44,6 +45,10 @@ class OfertaController extends Controller
             $ciclos = $request->ciclos;
             $oferta->save();
             $oferta->ciclos()->attach($ciclos);
+
+            foreach ($oferta->ciclos as $ciclo) {
+                $ciclo->usuarioResponsable->notify(new ValidarOfertaNotification($oferta->empresas->user, $oferta));
+            }
 
 
             return response()->json(new OfertaResource($oferta),201);

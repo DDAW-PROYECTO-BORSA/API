@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Ciclos;
-
 use App\Models\Alumnos;
+use App\Models\Ofertas;
 
 class ActivateUserThingsController extends Controller
 {
@@ -27,5 +27,18 @@ class ActivateUserThingsController extends Controller
             $alumno->ciclos()->updateExistingPivot($cicloId, ['validado' => 1]);
             return view('notificaciones.validarCiclo', compact('alumno', 'ciclo'));
         }           
+    }
+
+    public function validarOferta($id) {
+        $oferta = Ofertas::findOrFail($id);
+        if($oferta->validado === 1){
+            return "Esta oferta ya ha sido validada por otro responsable";
+        } else {
+            $oferta->validado = 1;
+            $oferta->estado = "activa";
+            $oferta->save();
+            return view('notificaciones.validarOferta', compact('oferta'));
+
+        }
     }
 }
