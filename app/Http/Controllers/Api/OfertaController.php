@@ -96,6 +96,8 @@ class OfertaController extends Controller
     {
         try {
             $oferta = Ofertas::findOrFail($id);
+            $oferta->estado = 'caducada';
+            $oferta->update();
             $oferta->delete();
             return response()->json('Su oferta con id ' . $id . ' ha sido eliminada',200);
         } catch (Exception $e) {

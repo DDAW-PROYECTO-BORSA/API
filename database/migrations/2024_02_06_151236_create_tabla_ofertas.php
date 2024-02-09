@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('ofertas', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('idEmpresa')->constrained('empresas','idUsuario')->nullable();
+            $table->foreignId('idEmpresa')->nullable()->constrained('empresas','idUsuario')->onDelete('set null');
             $table->text('descripcion');
             $table->string('duracion');
             $table->string('contacto');
