@@ -49,7 +49,7 @@ class EmpresaController extends Controller
             return response()->json(new EmpresaResource($empresa),201);
         } catch (Exception $e) {
 
-            return response()->json($e, 500);
+            return response()->json($e->getMessage(), 500);
         }
     }
 
@@ -88,13 +88,17 @@ class EmpresaController extends Controller
      */
     public function destroy(string $id)
     {
+        try {
+            $empresa = Empresas::find($id);
+            $empresa->delete();
 
-        $empresa = Empresas::find($id);
-        $empresa->delete();
+            $user = User::find($id);
+            $user->delete();
 
-        $user = User::find($id);
-        $user->delete();
+            return response()->json('La empresa con id ' . $id . ' ha sido eliminada.', 204);
+        } catch (Exception $e) {
+            return response()->json($e->getMessage(), 500);
+        }
 
-        return response()->json(null, 204);
     }
 }

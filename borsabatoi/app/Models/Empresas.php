@@ -22,4 +22,8 @@ class Empresas extends Model
     function user(){
         return $this->belongsTo(User::class, 'idUsuario', 'id');
     }
+
+    function ofertas(){
+        return $this->hasMany(Ofertas::class,'idEmpresa');
+    }
 }

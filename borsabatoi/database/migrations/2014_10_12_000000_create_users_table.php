@@ -21,8 +21,6 @@ return new class extends Migration
             $table->string('direccion');
             $table->string('rol');
             $table->timestamps();
-
-
         });
     }
 

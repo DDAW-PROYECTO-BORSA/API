@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\EmpresaController;
 use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\Api\OfertaController;
 use App\Http\Resources\EmpresaCollection;
 use App\Http\Resources\EmpresaResource;
 use App\Models\Empresas;
@@ -24,4 +25,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('empresas',EmpresaController::class);
+Route::apiResource('ofertas',OfertaController::class);
+
 Route::post('login', [LoginController::class,'login']);
