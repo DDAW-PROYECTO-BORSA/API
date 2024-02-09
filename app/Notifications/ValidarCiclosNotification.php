@@ -7,16 +7,17 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ActivarCuentaNotification extends Notification
+class ValidarCiclosNotification extends Notification
 {
     use Queueable;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($user)
+    public function __construct($user, $ciclo)
     {
         $this->user = $user;
+        $this->ciclo = $ciclo;
     }
 
     /**
@@ -35,9 +36,8 @@ class ActivarCuentaNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->line('Bienvenido a borsabatoi.')
-                    ->action('Activar cuenta', url('/alumnos/activar/' . $this->user->id))
-                    ->line('Activa tu cuenta antes de 3 dias!');
+                    ->line('Desea validar el ciclo de '. $this->ciclo->cliteral . " del alumno ". $this->user->name . "?")
+                    ->action('Validar', url('/alumnos/activar/' . $this->user->id ."/".$this->ciclo->id));
     }
 
     /**

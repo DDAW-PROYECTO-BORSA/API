@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Notifications\ActivarCuentaNotification;
+use App\Notifications\ValidarCiclosNotification;
+
 
 class AlumnosController extends Controller
 {
@@ -56,7 +58,7 @@ class AlumnosController extends Controller
                 $alumno->ciclos()->attach($ciclo->id, [
                     'finalizacion' => $cicloA['finalizacion'],
                 ]);                
-                // Notificacion para validar el ciclo
+                $user->notify(new ValidarCiclosNotification($user, $ciclo));
             }
 
 
@@ -102,12 +104,5 @@ class AlumnosController extends Controller
     public function destroy(int $id)
     {
         //
-    }
-
-    public function activarCuenta($id) {
-        $user = User::findOrFail($id);
-        $user->activado = 1;
-        $user->save();
-    
     }
 }
