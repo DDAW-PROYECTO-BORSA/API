@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('ofertas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('idEmpresa')->constrained('empresas','idUsuario');
+            $table->unsignedBigInteger('idEmpresa')->constrained('empresas','idUsuario')->nullable();
             $table->text('descripcion');
             $table->string('duracion');
             $table->string('contacto');

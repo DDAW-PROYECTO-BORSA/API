@@ -16,10 +16,7 @@ return new class extends Migration
             $table->string('CIF');
             $table->string('contacto');;
             $table->string('web')->nullable();
-
             $table->primary(['idUsuario']);
-
-
             $table->foreign('idUsuario')->references('id')->on('users')->onDelete('restrict');
         });
     }
