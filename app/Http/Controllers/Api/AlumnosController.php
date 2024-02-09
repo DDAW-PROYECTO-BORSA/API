@@ -58,7 +58,7 @@ class AlumnosController extends Controller
                 $alumno->ciclos()->attach($ciclo->id, [
                     'finalizacion' => $cicloA['finalizacion'],
                 ]);                
-                $user->notify(new ValidarCiclosNotification($user, $ciclo));
+                $ciclo->usuarioResponsable->notify(new ValidarCiclosNotification($user, $ciclo));
             }
 
 
