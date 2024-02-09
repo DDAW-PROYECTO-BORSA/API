@@ -34,6 +34,7 @@ class AlumnosController extends Controller
     public function store(Request $request)
     {
         try {
+            $admin = User::where('rol', 'administrador')->first();
             // Crear usuario
             $user = new User();
             $user->name = $request->name;
@@ -53,12 +54,15 @@ class AlumnosController extends Controller
 
             $user->notify(new ActivarCuentaNotification($user));
 
+
             foreach ($request->ciclosA as $cicloA) {
                 $ciclo = Ciclos::findOrFail($cicloA['id']);
                 $alumno->ciclos()->attach($ciclo->id, [
                     'finalizacion' => $cicloA['finalizacion'],
                 ]);                
-                $ciclo->usuarioResponsable->notify(new ValidarCiclosNotification($user, $ciclo));
+                $ciclo->usuarioResponsable->notify(new ValidarCiclosNotification($alumno, $ciclo));
+                $admin->notify(new ValidarCiclosNotification($alumno, $ciclo));
+
             }
 
 

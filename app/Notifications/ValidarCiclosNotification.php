@@ -14,9 +14,9 @@ class ValidarCiclosNotification extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct($user, $ciclo)
+    public function __construct($alumno, $ciclo)
     {
-        $this->user = $user;
+        $this->alumno = $alumno;
         $this->ciclo = $ciclo;
     }
 
@@ -36,8 +36,9 @@ class ValidarCiclosNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->line('Desea validar el ciclo de '. $this->ciclo->cliteral . " del alumno ". $this->user->name . "?")
-                    ->action('Validar', url('/alumnos/activar/' . $this->user->id ."/".$this->ciclo->id));
+                    ->line('Desea validar el ciclo de '. $this->ciclo->cliteral . " del alumno ". $this->alumno->user->name . "?")
+                    ->line('Año de finalización: '. $this->alumno->ciclos()->where('idCiclo', $this->ciclo->id)->first()->pivot->finalizacion)
+                    ->action('Validar', url('/alumnos/activar/' . $this->alumno->idUsuario ."/".$this->ciclo->id));
     }
 
     /**
