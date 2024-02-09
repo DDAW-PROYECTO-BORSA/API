@@ -13,7 +13,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\ValidarCorreoMail;
+use App\Notifications\ActivarCuentaNotification;
 
 class AlumnosController extends Controller
 {
@@ -49,7 +49,7 @@ class AlumnosController extends Controller
             $user->alumno()->save($alumno);
             $alumno = Alumnos::findOrFail($user->id);
 
-            Mail::to($user->email)->send(new ValidarCorreoMail($user));
+            $user->notify(new ActivarCuentaNotification($user));
 
             foreach ($request->ciclosA as $cicloA) {
                 $ciclo = Ciclos::findOrFail($cicloA['id']);
@@ -87,7 +87,6 @@ class AlumnosController extends Controller
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->direccion = $request->direccion;
-        $user->activado = 1;
         $user->update();
 
         $alumno->apellido = $request->apellido;

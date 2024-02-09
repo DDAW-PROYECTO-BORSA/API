@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CiclosController;
+use App\Http\Controllers\ActivateUserThingsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,6 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 
-
+Route::get('/alumnos/activar/{id}', [ActivateUserThingsController::class, 'activarCuenta'])->name('alumno.activarCuenta');
 Route::resource('ciclos', CiclosController::class);
 

@@ -30,4 +30,3 @@ Route::apiResource('alumnos', AlumnosController::class);
 
 Route::post('login', [LoginController::class,'login']);
 
-Route::put('/alumnos/activar/{id}', [AlumnosController::class, 'activarCuenta'])->name('alumno.activarCuenta');
