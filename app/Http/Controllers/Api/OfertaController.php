@@ -96,9 +96,8 @@ class OfertaController extends Controller
     {
         try {
             $oferta = Ofertas::findOrFail($id);
-            $oferta->estado = 'eliminada';
-            $oferta->update();
-            return response()->json('Su oferta con id ' . $id . ' ha sido marcada como eliminada',200);
+            $oferta->delete();
+            return response()->json('Su oferta con id ' . $id . ' ha sido eliminada',200);
         } catch (Exception $e) {
             return response()->json($e->getMessage(), 500);
         }
