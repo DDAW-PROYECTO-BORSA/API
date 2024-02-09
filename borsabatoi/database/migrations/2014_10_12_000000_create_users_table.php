@@ -23,8 +23,6 @@ return new class extends Migration
             $table->boolean('activado')->default(false);
 
             $table->timestamps();
-
-
         });
     }
 

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->primary(['idUsuario']);
 
 
-            $table->foreign('idUsuario')->references('id')->on('users');
+            $table->foreign('idUsuario')->references('id')->on('users')->onDelete('restrict');
         });
     }
 
