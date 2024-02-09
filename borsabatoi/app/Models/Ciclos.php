@@ -22,4 +22,9 @@ class Ciclos extends Model
     {
         return $this->belongsToMany(Alumnos::class, 'alumnosCiclos', 'idCiclo', 'idUsuario')->withPivot('finalizacion', 'validado');
     }
+
+    function ofertas()
+    {
+        return $this->belongsToMany(Ofertas::class,'ofertasCiclos', 'idCiclo','idOferta');
+    }
 }

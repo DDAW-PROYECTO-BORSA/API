@@ -9,6 +9,7 @@ class Ofertas extends Model
 {
     use HasFactory;
     public $timestamps = false;
+    protected $table = 'ofertas';
 
     public function alumnos()
     {
@@ -18,5 +19,10 @@ class Ofertas extends Model
     public function ciclos()
     {
         return $this->belongsToMany(Ciclos::class, 'ofertasCiclos', 'idOferta', 'idCiclo');
+    }
+
+    public function empresas()
+    {
+        return $this->belongsTo(Empresas::class,'idEmpresa');
     }
 }

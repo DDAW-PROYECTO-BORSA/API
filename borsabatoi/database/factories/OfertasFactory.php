@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Empresas;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,12 +18,14 @@ class OfertasFactory extends Factory
     public function definition(): array
     {
         return [
+            'idEmpresa' => Empresas::inRandomOrder()->value('idUsuario'),
             'descripcion' => $this->faker->paragraph(),
             'duracion' => $this->faker->numberBetween(1, 999),
             'contacto' => $this->faker->name,
             'metodoInscripcion' => $this->faker->randomElement(['email', 'inscripcion']),
             'estado' => $this->faker->randomElement(['activa', 'caducada']),
-            'validado' => $this->faker->boolean,
+            'email' => $this->faker->email,
+            'validado' => $this->faker->boolean
         ];
     }
 }

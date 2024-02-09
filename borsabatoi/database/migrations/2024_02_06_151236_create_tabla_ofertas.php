@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('ofertas', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('idEmpresa')->constrained('empresas','idUsuario');
             $table->text('descripcion');
             $table->string('duracion');
             $table->string('contacto');
             $table->string('metodoInscripcion');
+            $table->string('email')->nullable();
             $table->string('estado');
             $table->boolean('validado');
         });
