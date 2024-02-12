@@ -7,7 +7,9 @@ use App\Http\Controllers\ActivateUserThingsController;
 use App\Models\User;
 use App\Models\Alumnos;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Mail;
+use App\Notifications\ActivarCuentaNotification;
+use App\Notifications\ValidarCiclosNotification;
 
 
 /*
@@ -22,6 +24,7 @@ use Illuminate\Support\Facades\Hash;
 */
 
 Route::get('/', function () {
+    auth()->logout();
     return view('welcome');
 });
 
@@ -54,32 +57,37 @@ Route::get('/auth/github/callback', function () {
 
     $admin = User::where('rol', 'administrador')->first();
             // Crear usuario
-            $user = new User();
-            $user->name = $githubUser->name;
-            $user->email = $githubUser->email;
-            $user->password = Hash::make("password");
-            $user->direccion = "";
-            $user->rol = 'alumno';
-            $user->save();
-            // Crear el alumno asociada al usuario
-            $alumno = new Alumnos();
-            $alumno->apellido = "";
-            $alumno->cv = $githubUser->user['html_url'];
+    $user = User::where('email', $githubUser->email)->first();
+    
+    if(!$user){
+        $user = new User();
+        $user->name = $githubUser->name;
+        $user->email = $githubUser->email;
+        $user->providerId = $githubUser->id;
+        $user->direccion = "";
+        $user->rol = 'alumno';
+        $user->save();
+        // Crear el alumno asociada al usuario
+        $alumno = new Alumnos();
+        $alumno->apellido = "";
+        $alumno->cv = $githubUser->user['html_url'];
 
-            // Guardar el alumno asociada al usuario
-            $user->alumno()->save($alumno);
-            $alumno = Alumnos::findOrFail($user->id);
+        // Guardar el alumno asociada al usuario
+        $user->alumno()->save($alumno);
+        $alumno = Alumnos::findOrFail($user->id);
 
-            $user->notify(new ActivarCuentaNotification($user));
+        $user->notify(new ActivarCuentaNotification($user));
 
 
-            foreach ($request->ciclosA as $cicloA) {
-                $ciclo = Ciclos::findOrFail($cicloA['id']);
-                $alumno->ciclos()->attach($ciclo->id, [
-                    'finalizacion' => $cicloA['finalizacion'],
-                ]);                
-                $ciclo->usuarioResponsable->notify(new ValidarCiclosNotification($alumno, $ciclo));
-                $admin->notify(new ValidarCiclosNotification($alumno, $ciclo));
-
-            }
+        foreach ($request->ciclosA as $cicloA) {
+            $ciclo = Ciclos::findOrFail($cicloA['id']);
+            $alumno->ciclos()->attach($ciclo->id, [
+                'finalizacion' => $cicloA['finalizacion'],
+            ]);                
+            $ciclo->usuarioResponsable->notify(new ValidarCiclosNotification($alumno, $ciclo));
+            $admin->notify(new ValidarCiclosNotification($alumno, $ciclo));
+        }
+    }
+    auth()->login($user, true);
+    return redirect('dashboard');
 });
