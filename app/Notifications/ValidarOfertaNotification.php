@@ -7,17 +7,17 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ValidarCiclosNotification extends Notification
+class ValidarOfertaNotification extends Notification
 {
     use Queueable;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($alumno, $ciclo)
+    public function __construct($user, $oferta)
     {
-        $this->alumno = $alumno;
-        $this->ciclo = $ciclo;
+        $this->user = $user;
+        $this->oferta = $oferta;
     }
 
     /**
@@ -36,9 +36,8 @@ class ValidarCiclosNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->line('Desea validar el ciclo de '. $this->ciclo->cliteral . " del alumno ". $this->alumno->user->name . "?")
-                    ->line('Año de finalización: '. $this->alumno->ciclos()->where('idCiclo', $this->ciclo->id)->first()->pivot->finalizacion)
-                    ->action('Validar', url('/alumnos/activar/' . $this->alumno->idUsuario ."/".$this->ciclo->id));
+                    ->line('Desea validar la oferta de '. $this->oferta->contacto . " de la empresa ". $this->user->name . "?")
+                    ->action('Validar', url('/ofertas/activar/' . $this->oferta->id));
     }
 
     /**
