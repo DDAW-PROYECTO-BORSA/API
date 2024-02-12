@@ -59,34 +59,9 @@ Route::get('/auth/github/callback', function () {
             // Crear usuario
     $user = User::where('email', $githubUser->email)->first();
     
-    if(!$user){
-        $user = new User();
-        $user->name = $githubUser->name;
-        $user->email = $githubUser->email;
+    if(!$user->providerId){
         $user->providerId = $githubUser->id;
-        $user->direccion = "";
-        $user->rol = 'alumno';
-        $user->save();
-        // Crear el alumno asociada al usuario
-        $alumno = new Alumnos();
-        $alumno->apellido = "";
-        $alumno->cv = $githubUser->user['html_url'];
-
-        // Guardar el alumno asociada al usuario
-        $user->alumno()->save($alumno);
-        $alumno = Alumnos::findOrFail($user->id);
-
-        $user->notify(new ActivarCuentaNotification($user));
-
-
-        foreach ($request->ciclosA as $cicloA) {
-            $ciclo = Ciclos::findOrFail($cicloA['id']);
-            $alumno->ciclos()->attach($ciclo->id, [
-                'finalizacion' => $cicloA['finalizacion'],
-            ]);                
-            $ciclo->usuarioResponsable->notify(new ValidarCiclosNotification($alumno, $ciclo));
-            $admin->notify(new ValidarCiclosNotification($alumno, $ciclo));
-        }
+        $user->update();
     }
     auth()->login($user, true);
     return redirect('dashboard');
