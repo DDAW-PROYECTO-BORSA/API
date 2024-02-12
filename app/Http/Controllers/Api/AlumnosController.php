@@ -54,17 +54,17 @@ class AlumnosController extends Controller
 
             $user->notify(new ActivarCuentaNotification($user));
 
-
-            foreach ($request->ciclosA as $cicloA) {
-                $ciclo = Ciclos::findOrFail($cicloA['id']);
-                $alumno->ciclos()->attach($ciclo->id, [
-                    'finalizacion' => $cicloA['finalizacion'],
-                ]);                
-                $ciclo->usuarioResponsable->notify(new ValidarCiclosNotification($alumno, $ciclo));
-                $admin->notify(new ValidarCiclosNotification($alumno, $ciclo));
-
+            if ($request->ciclosA){
+                foreach ($request->ciclosA as $cicloA) {
+                    $ciclo = Ciclos::findOrFail($cicloA['id']);
+                    $alumno->ciclos()->attach($ciclo->id, [
+                        'finalizacion' => $cicloA['finalizacion'],
+                    ]);                
+                    $ciclo->usuarioResponsable->notify(new ValidarCiclosNotification($alumno, $ciclo));
+                    $admin->notify(new ValidarCiclosNotification($alumno, $ciclo));
+    
+                }
             }
-
 
             return response()->json(new AlumnoResource($alumno),201);
         } catch (Exception $e) {
