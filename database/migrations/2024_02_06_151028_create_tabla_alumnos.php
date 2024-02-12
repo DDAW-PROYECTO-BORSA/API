@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('alumnos', function (Blueprint $table) {
             $table->unsignedBigInteger('idUsuario');
-            $table->string('apellido');
-            $table->text('CV');
+            $table->string('apellido')->nullable();
+            $table->text('CV')->nullable();
 
             $table->primary(['idUsuario']);
 
             $table->foreign('idUsuario')->references('id')->on('users');
+            $table->timestamps();
+
             
 
         });

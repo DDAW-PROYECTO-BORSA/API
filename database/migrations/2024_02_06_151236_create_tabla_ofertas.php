@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('estado');
             $table->boolean('validado');
             $table->softDeletes();
+            $table->timestamps();
         });
     }
 

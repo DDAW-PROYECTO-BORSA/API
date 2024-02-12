@@ -9,7 +9,6 @@ class Familias extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
 
 
     public function ciclo(){

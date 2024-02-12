@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Alumnos extends Model
 {
     use HasFactory;
-    public $timestamps = false;
     protected $table = 'alumnos';
     protected $primaryKey = 'idUsuario';
     protected $fillable = [
@@ -33,5 +32,12 @@ class Alumnos extends Model
     function ofertas()
     {
         return $this->belongsToMany(Ciclos::class, 'alumnosCiclos', 'idUsuario', 'idCiclo')->withPivot('finalizacion', 'validado');
+    }
+
+    public function delete()
+    {
+        $this->ofertas()->detach();
+        parent::delete();
+
     }
 }

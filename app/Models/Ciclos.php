@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Ciclos extends Model
 {
     use HasFactory;
-    public $timestamps = false;
 
     function usuarioResponsable(){
         return $this->belongsTo(User::class, 'responsable', 'id');
