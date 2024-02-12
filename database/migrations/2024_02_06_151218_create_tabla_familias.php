@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('cliteral');
             $table->string('vliteral');
             $table->string('depcurt');
+            $table->timestamps();
+
         });
     }
 

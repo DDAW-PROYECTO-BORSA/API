@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Ciclos;
+use App\Models\Alumnos;
+use App\Models\Ofertas;
+use App\Mail\NuevaOfertaMail;
+use Illuminate\Support\Facades\Mail;
+
 
 class ActivateUserThingsController extends Controller
 {
@@ -14,5 +20,35 @@ class ActivateUserThingsController extends Controller
         return view('notificaciones.validarCorreo', compact('user'));
 
     
+    }
+
+    public function validarCiclo($alumnoId, $cicloId) {
+        $alumno = Alumnos::findOrFail($alumnoId);
+        $ciclo = Ciclos::findOrFail($cicloId);
+
+        if ($alumno && $alumno->ciclos()->where('idCiclo', $cicloId)->exists()) {
+            $alumno->ciclos()->updateExistingPivot($cicloId, ['validado' => 1]);
+            return view('notificaciones.validarCiclo', compact('alumno', 'ciclo'));
+        }           
+    }
+
+    public function validarOferta($id) {
+        $oferta = Ofertas::findOrFail($id);
+        if($oferta->validado == 1){
+            return "Esta oferta ya ha sido validada por otro responsable";
+        } else {
+            $oferta->validado = 1;
+            $oferta->estado = "activa";
+            $oferta->save();
+
+            $ciclosOferta = $oferta->ciclos;
+            foreach ($ciclosOferta as $cicloOferta) {
+                foreach ($cicloOferta->alumnos as $alumnoOferta) {
+                    Mail::to($alumnoOferta->user->email)->send(new NuevaOfertaMail($oferta));
+                }
+            }
+            return view('notificaciones.validarOferta', compact('oferta'));
+
+        }
     }
 }

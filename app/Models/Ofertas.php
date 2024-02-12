@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Ofertas extends Model
 {
     use HasFactory;
-    public $timestamps = false;
     protected $table = 'ofertas';
 
     public function alumnos()

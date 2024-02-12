@@ -34,5 +34,8 @@ require __DIR__.'/auth.php';
 
 
 Route::get('/alumnos/activar/{id}', [ActivateUserThingsController::class, 'activarCuenta'])->name('alumno.activarCuenta');
+Route::get('/alumnos/activar/{userId}/{cicloId}', [ActivateUserThingsController::class, 'validarCiclo'])->name('alumno.validarCiclo');
+Route::get('/ofertas/activar/{id}/', [ActivateUserThingsController::class, 'validarOferta'])->name('alumno.validarCiclo');
+
 Route::resource('ciclos', CiclosController::class);
 
