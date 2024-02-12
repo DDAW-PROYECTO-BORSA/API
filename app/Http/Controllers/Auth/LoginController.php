@@ -24,26 +24,23 @@ class LoginController extends Controller
         try {
             $user = Socialite::driver('google')->user();
 
-            // Trobar o crear l'usuari basat en la informació de Google
-            $localUser = User::updateOrCreate(
-                ['email' => $user->email],
-                [
-                    'name' => $user->name,
-                    'google_id' => $user->id,
-                    'rol' => 'google',
-                    'password' => Hash::make(Str::random()),
-                    'activado' => 0
-                    // Altres camps que vulguis guardar
-                ]
-            );
+            // Comprovar si l'usuari existeix amb autenticació de Google
+            $existingUser = User::where('google_id',$user->id)->first();
+            // Comprovar si l'usuari està resgistrat amb el correu de l'usuari de Google
+            $userWithoutGoogleAuth = User::where('email',$user->email)->first();
 
-            // Iniciar sessió de l'usuari
-            Auth::login($localUser);
+            if($existingUser != null){
+                Auth::login($existingUser);
+                $token = $existingUser->createToken('Personal Access Token')->plainTextToken;
+            } elseif ($userWithoutGoogleAuth != null) {
+                $userWithoutGoogleAuth->google_id = $user->id;
+                $userWithoutGoogleAuth->save();
+                Auth::login($userWithoutGoogleAuth);
+                $token = $userWithoutGoogleAuth->createToken('Personal Access Token')->plainTextToken;
+            } else {
+                return view('auth.error', ['error' => 'Usuari no registrat']);
+            }
 
-            // Generar token Sanctum
-            $token = $localUser->createToken('Personal Access Token')->plainTextToken;
-
-            // Redirigir l'usuari amb el token
             return view('auth.success', ['token' => $token]);
 
         } catch (\Exception $e) {
