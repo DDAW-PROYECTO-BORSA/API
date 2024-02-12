@@ -31,6 +31,8 @@ class OfertaController extends Controller
     public function store(Request $request)
     {
         try {
+            $admin = User::where('rol', 'administrador')->first();
+
             // Crear oferta
             $oferta = new Ofertas();
             $oferta->idEmpresa = $request->idEmpresa;
@@ -46,6 +48,7 @@ class OfertaController extends Controller
             $oferta->save();
             $oferta->ciclos()->attach($ciclos);
 
+            $admin->notify(new ValidarCiclosNotification($alumno, $ciclo));
             foreach ($oferta->ciclos as $ciclo) {
                 $ciclo->usuarioResponsable->notify(new ValidarOfertaNotification($oferta->empresas->user, $oferta));
             }

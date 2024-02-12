@@ -21,6 +21,8 @@ return new class extends Migration
 
 
             $table->foreign('idUsuario')->references('id')->on('users')->onDelete('restrict');
+            $table->timestamps();
+
         });
     }
 

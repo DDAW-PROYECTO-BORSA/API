@@ -107,6 +107,24 @@ class AlumnosController extends Controller
      */
     public function destroy(int $id)
     {
-        //
+        try{
+            $alumno = Alumnos::findOrFail($id);
+            $user = User::findOrFail($id);
+            $user->name = null;
+            $user->email = null;
+            $user->password = null;
+            $user->direccion = null;
+            $user->update();
+
+            $alumno->apellido = null;
+            $alumno->cv = null;
+            $alumno->update(); 
+
+        } catch (Exception $e) {
+
+            return response()->json($e, 500);
+        }
+               
+
     }
 }

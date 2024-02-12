@@ -19,6 +19,8 @@ return new class extends Migration
             $table->foreign('idCiclo')->references('id')->on('ciclos');
 
             $table->primary(['idOferta','idCiclo']);
+            $table->timestamps();
+
 
         });
     }
