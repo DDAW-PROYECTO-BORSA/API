@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('ofertas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('idEmpresa')->constrained('empresas','idUsuario');
+            $table->foreignId('idEmpresa')->nullable()->constrained('empresas','idUsuario')->onDelete('set null');
             $table->text('descripcion');
             $table->string('duracion');
             $table->string('contacto');
@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('estado');
             $table->boolean('validado');
+            $table->softDeletes();
             $table->timestamps();
-
         });
     }
 
