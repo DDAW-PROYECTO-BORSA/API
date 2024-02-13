@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CiclosController;
@@ -47,6 +48,8 @@ Route::get('/ofertas/activar/{id}/', [ActivateUserThingsController::class, 'vali
 
 Route::resource('ciclos', CiclosController::class);
 
+Route::get('/auth/google', [LoginController::class, 'redirectToGoogle']);
+Route::get('/auth/google/callback', [LoginController::class, 'handleGoogleCallback']);
 
 Route::get('/auth/github/redirect', function (){
     return Socialite::driver('github')->redirect();

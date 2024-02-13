@@ -21,6 +21,9 @@ return new class extends Migration
             $table->rememberToken();
             $table->string('direccion')->nullable();
             $table->string('rol')->nullable();
+            $table->string('direccion');
+            $table->string('rol');
+            $table->string('google_id')->nullable();
             $table->boolean('activado')->default(false);
 
             $table->timestamps();

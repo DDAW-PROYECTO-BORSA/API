@@ -4,6 +4,11 @@
 
     <form method="POST" action="{{ route('login') }}">
         @csrf
+        <div class="text-center">
+            <a href="http://localhost/auth/google">
+                <img class="mx-auto" src="https://static-00.iconduck.com/assets.00/google-icon-512x512-tqc9el3r.png" alt="Google" width="50px">
+            </a>
+        </div>
 
         <!-- Email Address -->
         <div>
