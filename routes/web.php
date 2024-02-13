@@ -5,6 +5,13 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CiclosController;
 use App\Http\Controllers\ActivateUserThingsController;
+use App\Models\User;
+use App\Models\Alumnos;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Notifications\ActivarCuentaNotification;
+use App\Notifications\ValidarCiclosNotification;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +25,7 @@ use App\Http\Controllers\ActivateUserThingsController;
 */
 
 Route::get('/', function () {
+    auth()->logout();
     return view('welcome');
 });
 
@@ -42,3 +50,22 @@ Route::resource('ciclos', CiclosController::class);
 
 Route::get('/auth/google', [LoginController::class, 'redirectToGoogle']);
 Route::get('/auth/google/callback', [LoginController::class, 'handleGoogleCallback']);
+
+Route::get('/auth/github/redirect', function (){
+    return Socialite::driver('github')->redirect();
+
+});
+Route::get('/auth/github/callback', function () {
+    $githubUser = Socialite::driver('github')->user();
+
+    $admin = User::where('rol', 'administrador')->first();
+            // Crear usuario
+    $user = User::where('email', $githubUser->email)->first();
+    
+    if(!$user->providerId){
+        $user->providerId = $githubUser->id;
+        $user->update();
+    }
+    auth()->login($user, true);
+    return redirect('dashboard');
+});

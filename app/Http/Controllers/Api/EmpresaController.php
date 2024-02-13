@@ -29,7 +29,13 @@ class EmpresaController extends Controller
     public function store(EmpresaRequest $request)
     {
         try {
-            // Crear usuario
+            $existeEmpresa = Empresas::where('CIF', $request->CIF)->get();
+
+            if($existeEmpresa){
+                return response()->json("Esta empresa ya existe", 500);
+
+            }else{
+                 // Crear usuario
             $user = new User();
             $user->name = $request->name;
             $user->email = $request->email;
@@ -47,6 +53,8 @@ class EmpresaController extends Controller
             $user->empresa()->save($empresa);
 
             return response()->json(new EmpresaResource($empresa),201);
+            }
+           
         } catch (Exception $e) {
 
             return response()->json($e->getMessage(), 500);

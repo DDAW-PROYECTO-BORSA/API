@@ -28,7 +28,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::apiResource('empresas',EmpresaController::class);
 Route::apiResource('ofertas',OfertaController::class);
+Route::post('ofertas/inscribirse/{idOferta}/{idAlumno}', [OfertaController::class,'inscribirse']);
+Route::get('ofertas/candidatos/{id}', [OfertaController::class,'candidatos']);
+
 Route::apiResource('alumnos', AlumnosController::class);
 
 Route::post('login', [LoginController::class,'login']);
+Route::get('auth/github/redirect', [LoginController::class,'githubRedirect']);
+Route::get('auth/github/callback', [LoginController::class,'githubCallback']);
+
 
