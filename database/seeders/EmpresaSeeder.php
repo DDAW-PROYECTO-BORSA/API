@@ -5,6 +5,9 @@ namespace Database\Seeders;
 use App\Models\Empresas;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
 
 class EmpresaSeeder extends Seeder
 {
@@ -18,8 +21,8 @@ class EmpresaSeeder extends Seeder
 
         Empresas::create([
             'idUsuario' => $user->id,
-            'CIF' => $this->faker->numerify('B########'),
-            'contacto' => fake()->name(),
+            'CIF' => 'B99999999',
+            'contacto' => "Joan Calvo",
             'web' => 'https://cipfpbatoi.es'
         ]);
 
