@@ -7,7 +7,7 @@ use App\Models\Ofertas;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PrologaMail;
 
-class SendReminderEmail extends Command
+class PrologaEmail extends Command
 {
     protected $signature = 'send:prologaemail';
 
