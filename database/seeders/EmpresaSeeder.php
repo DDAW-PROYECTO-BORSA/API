@@ -13,6 +13,16 @@ class EmpresaSeeder extends Seeder
      */
     public function run(): void
     {
+
+        $user = User::factory()->create(['name' => 'Responsable CIP FP Batoi', 'email' => 'cipfpbatoi@gva.edu', 'rol' => 'empresa']);
+
+        Empresas::create([
+            'idUsuario' => $user->id,
+            'CIF' => $this->faker->numerify('B########'),
+            'contacto' => fake()->name(),
+            'web' => 'https://cipfpbatoi.es'
+        ]);
+
         Empresas::factory()->count(25)->create();
     }
 }

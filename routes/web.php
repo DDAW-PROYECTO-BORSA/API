@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CiclosController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ActivateUserThingsController;
 use App\Models\User;
 use App\Models\Alumnos;
@@ -47,6 +48,11 @@ Route::get('/alumnos/activar/{userId}/{cicloId}', [ActivateUserThingsController:
 Route::get('/ofertas/activar/{id}/', [ActivateUserThingsController::class, 'validarOferta'])->name('alumno.validarCiclo');
 
 Route::resource('ciclos', CiclosController::class);
+Route::resource('users', UserController::class);
+Route::get('/users/cambiarContrasenya/{id}', [UserController::class, 'cambiarContrasenya']);
+
+
+
 
 Route::get('/auth/google', [LoginController::class, 'redirectToGoogle']);
 Route::get('/auth/google/callback', [LoginController::class, 'handleGoogleCallback']);
