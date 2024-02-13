@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Notifications\ActivarCuentaNotification;
 use App\Notifications\ValidarCiclosNotification;
+use Laravel\Socialite\Facades\Socialite;
 
 
 /*
@@ -67,7 +68,7 @@ Route::get('/auth/github/callback', function () {
     $admin = User::where('rol', 'administrador')->first();
             // Crear usuario
     $user = User::where('email', $githubUser->email)->first();
-    
+
     if(!$user->providerId){
         $user->providerId = $githubUser->id;
         $user->update();
