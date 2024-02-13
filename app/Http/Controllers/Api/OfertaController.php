@@ -9,6 +9,9 @@ use App\Http\Resources\OfertaResource;
 use App\Models\Empresas;
 use App\Models\Ofertas;
 use App\Models\User;
+use App\Models\Alumnos;
+use App\Http\Resources\AlumnoCollection;
+
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -111,6 +114,31 @@ class OfertaController extends Controller
         } catch (Exception $e) {
             return response()->json($e->getMessage(), 500);
         }
+    }
 
+    public function inscribirse(int $idOferta, int $idAlumno){
+        try {
+
+            $oferta = Ofertas::findOrFail($idOferta);
+            $alumno = Alumnos::findOrFail($idAlumno);
+
+            $oferta->alumnos()->attach($alumno);
+            return response()->json('Se ha apuntado correctamente a la oferta ',200);
+
+        } catch (Exception $e) {
+            return response()->json($e->getMessage(), 500);
+        }
+    }
+
+
+    public function candidatos(int $id){
+        try {
+
+            $oferta = Ofertas::findOrFail($id);
+            return new AlumnoCollection($oferta->alumnos);
+
+        } catch (Exception $e) {
+            return response()->json($e->getMessage(), 500);
+        }
     }
 }

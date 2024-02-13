@@ -10,7 +10,6 @@ class Ofertas extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    public $timestamps = false;
     protected $table = 'ofertas';
 
     public function alumnos()
