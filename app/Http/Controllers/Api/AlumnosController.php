@@ -1,0 +1,130 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\AlumnoRequest;
+use App\Http\Resources\AlumnoCollection;
+use App\Http\Resources\AlumnoResource;
+use App\Models\Alumnos;
+use App\Models\User;
+use App\Models\Ciclos;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Notifications\ActivarCuentaNotification;
+use App\Notifications\ValidarCiclosNotification;
+
+
+class AlumnosController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $alumnos = Alumnos::all();
+        return new AlumnoCollection($alumnos);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        try {
+            $admin = User::where('rol', 'administrador')->first();
+            // Crear usuario
+            $user = new User();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->direccion = $request->direccion;
+            $user->rol = 'alumno';
+            $user->save();
+            // Crear el alumno asociada al usuario
+            $alumno = new Alumnos();
+            $alumno->apellido = $request->apellido;
+            $alumno->cv = $request->cv;
+
+            // Guardar el alumno asociada al usuario
+            $user->alumno()->save($alumno);
+            $alumno = Alumnos::findOrFail($user->id);
+
+            $user->notify(new ActivarCuentaNotification($user));
+
+            if ($request->ciclosA){
+                foreach ($request->ciclosA as $cicloA) {
+                    $ciclo = Ciclos::findOrFail($cicloA['id']);
+                    $alumno->ciclos()->attach($ciclo->id, [
+                        'finalizacion' => $cicloA['finalizacion'],
+                    ]);                
+                    $ciclo->usuarioResponsable->notify(new ValidarCiclosNotification($alumno, $ciclo));
+                    $admin->notify(new ValidarCiclosNotification($alumno, $ciclo));
+    
+                }
+            }
+
+            return response()->json(new AlumnoResource($alumno),201);
+        } catch (Exception $e) {
+
+            return response()->json($e, 500);
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(int $id)
+    {
+        $alumno = Alumnos::findOrFail($id);
+        return response()->json(new AlumnoResource($alumno), 200);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, int $id)
+    {
+        $alumno = Alumnos::findOrFail($id);
+        $user = User::findOrFail($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->direccion = $request->direccion;
+        $user->update();
+
+        $alumno->apellido = $request->apellido;
+        $alumno->cv = $request->cv;
+        $alumno->update();
+
+        return response()->json(new AlumnoResource($alumno),200);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(int $id)
+    {
+        try{
+            $alumno = Alumnos::findOrFail($id);
+            $user = User::findOrFail($id);
+            $user->name = null;
+            $user->email = null;
+            $user->password = null;
+            $user->direccion = null;
+            $user->update();
+
+            $alumno->apellido = null;
+            $alumno->cv = null;
+            $alumno->update(); 
+
+        } catch (Exception $e) {
+
+            return response()->json($e, 500);
+        }
+               
+
+    }
+}
