@@ -7,7 +7,7 @@ require 'recipe/laravel.php';
 
 set('repository', 'https://github.com/DDAW-PROYECTO-BORSA/API.git');
 
-add('shared_files', ['.env']);
+add('shared_files', ['.env', 'docker-compose.yml']);
 add('shared_dirs', ['storage', 'public/uploads']);
 add('writable_dirs', ['bootstrap/cache', 'storage']);
 
