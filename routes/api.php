@@ -4,11 +4,9 @@ use App\Http\Controllers\Api\CicloController;
 use App\Http\Controllers\Api\EmpresaController;
 use App\Http\Controllers\Api\AlumnosController;
 
+use App\Http\Controllers\Api\FamiliaController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\OfertaController;
-use App\Http\Resources\EmpresaCollection;
-use App\Http\Resources\EmpresaResource;
-use App\Models\Empresas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +28,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::apiResource('empresas',EmpresaController::class);
 Route::apiResource('ofertas',OfertaController::class);
 Route::apiResource('ciclos', CicloController::class);
+Route::apiResource('familias', FamiliaController::class);
 Route::post('ofertas/inscribirse/{idOferta}/{idAlumno}', [OfertaController::class,'inscribirse']);
 Route::get('ofertas/candidatos/{id}', [OfertaController::class,'candidatos']);
 

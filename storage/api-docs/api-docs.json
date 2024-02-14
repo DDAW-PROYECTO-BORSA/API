@@ -30,6 +30,31 @@
                 }
             }
         },
+        "/api/familias": {
+            "get": {
+                "tags": [
+                    "Familias"
+                ],
+                "summary": "Get list of Familias",
+                "description": "Returns list of Familias",
+                "operationId": "getFamiliasList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FamiliaResource"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
         "/api/login": {
             "post": {
                 "tags": [
@@ -117,6 +142,22 @@
                 "type": "object",
                 "xml": {
                     "name": "CicloResource"
+                }
+            },
+            "FamiliaResource": {
+                "title": "FamiliaResource",
+                "description": "Project resource",
+                "properties": {
+                    "data": {
+                        "title": "data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {}
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "FamiliaResource"
                 }
             },
             "User": {
