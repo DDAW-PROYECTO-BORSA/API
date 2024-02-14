@@ -10,6 +10,40 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Laravel\Socialite\Facades\Socialite;
 
+/**
+ * @OA\Post(
+ * path="/api/login",
+ * summary="Sign in",
+ * description="Login by email, password",
+ * operationId="authLogin",
+ * tags={"auth"},
+ * @OA\RequestBody(
+ *    required=true,
+ *    description="Pass user credentials",
+ *    @OA\JsonContent(
+ *       required={"email","password"},
+ *       @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
+ *       @OA\Property(property="password", type="string", format="password", example="PassWord12345"),
+ *    ),
+ * ),
+ * @OA\Response(
+ *    response=422,
+ *    description="Wrong credentials response",
+ *    @OA\JsonContent(
+ *       @OA\Property(property="message", type="string", example="Email o contraseña erróneos. Por favor, inténtalo de nuevo")
+ *        )
+ *     )
+ * ,
+ * @OA\Response(
+ *     response=200,
+ *     description="Success",
+ *     @OA\JsonContent(
+ *         @OA\Property(property="token", type="string")
+ *          )
+ *       )
+ * )
+ */
+
 class LoginController extends Controller
 {
     public function login(Request $request)
@@ -19,11 +53,16 @@ class LoginController extends Controller
             'password' => 'required'
         ]);
 
-        if (!Auth::attempt($request->only('email', 'password'))) {
-            throw ValidationException::withMessages([
-                'email' => ['Los datos introducidos son incorrectos.'],
-            ]);
+        $messages = [];
+        if(User::where('email',$request->email)->first() == null){
+            $messages[] = ['email' => 'El email introducido es incorrecto, por favor inténtalo de nuevo'];
+        } else {
+            $messages[] = ['password' => 'La contraseña introducida es incorrecta, por favor inténtalo de nuevo'];
         }
+
+       if (!Auth::attempt($request->only('email', 'password'))) {
+            throw ValidationException::withMessages($messages);
+       }
 
         $user = User::where('email', $request->email)->firstOrFail();
 

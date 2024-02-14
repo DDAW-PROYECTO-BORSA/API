@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CicloController;
 use App\Http\Controllers\Api\EmpresaController;
 use App\Http\Controllers\Api\AlumnosController;
 
@@ -28,6 +29,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::apiResource('empresas',EmpresaController::class);
 Route::apiResource('ofertas',OfertaController::class);
+Route::apiResource('ciclos', CicloController::class);
 Route::post('ofertas/inscribirse/{idOferta}/{idAlumno}', [OfertaController::class,'inscribirse']);
 Route::get('ofertas/candidatos/{id}', [OfertaController::class,'candidatos']);
 
