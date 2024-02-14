@@ -1,4 +1,4 @@
-@extends('layouts.plantilla')
+@extends('layouts.plantillaNoNav')
 @section('titulo', 'Cambiar contraseña')
 
 @section('contenido')
