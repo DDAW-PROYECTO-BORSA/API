@@ -65,7 +65,7 @@ class UserController extends Controller
         $user->password = $request->get('password');
         $user->save();
 
-        return view('users.show', compact('user'));
+        return "Tu contraseña se ha actualizado correctamente";
     }
 
     /**
