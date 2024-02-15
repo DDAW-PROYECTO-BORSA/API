@@ -66,7 +66,7 @@ class CicloController extends Controller
      *      ),
      *      @OA\Response(
      *          response=200,
-     *          description="Operación realizada con éxito",
+     *          description="Successful operation",
      *          @OA\JsonContent(ref="#/components/schemas/CicloResource")
      *       ),
      *     @OA\Response(

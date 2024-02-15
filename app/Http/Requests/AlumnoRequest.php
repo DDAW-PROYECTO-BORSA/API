@@ -3,6 +3,16 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
+
+/**
+ * @OA\Schema(
+ *      title="Alumno request",
+ *      description="Request de alumno",
+ *      type="object",
+ *      required={"name","apellido","email","password","direccion"}
+ * )
+ */
 
 class AlumnoRequest extends FormRequest
 {
