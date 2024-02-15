@@ -1,17 +1,12 @@
 <?php
 
-use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CiclosController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ActivateUserThingsController;
 use App\Models\User;
-use App\Models\Alumnos;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use App\Notifications\ActivarCuentaNotification;
-use App\Notifications\ValidarCiclosNotification;
 use Laravel\Socialite\Facades\Socialite;
 
 
@@ -55,9 +50,6 @@ Route::get('/users/cambiarContrasenya/{id}', [UserController::class, 'cambiarCon
 
 
 
-Route::get('/auth/google', [LoginController::class, 'redirectToGoogle']);
-Route::get('/auth/google/callback', [LoginController::class, 'handleGoogleCallback']);
-
 Route::get('/auth/github/redirect', function (){
     return Socialite::driver('github')->redirect();
 
@@ -76,3 +68,6 @@ Route::get('/auth/github/callback', function () {
     auth()->login($user, true);
     return redirect('dashboard');
 });
+
+Route::get('/auth/google', [LoginController::class, 'redirectToGoogle']);
+Route::get('/auth/google/callback', [LoginController::class, 'handleGoogleCallback']);
