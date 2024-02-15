@@ -58,7 +58,7 @@ class AlumnosController extends Controller
      *      path="/api/alumnos",
      *      operationId="storeAlumno",
      *      tags={"Alumnos"},
-     *      summary="Guarda un nuevo usuario con el rol de alumno",
+     *      summary="Guarda un nuevo usuario con el rol de alumno y crea un registro de alumno",
      *      description="Devuelve los datos del alumno guardado",
      *      @OA\RequestBody(
      *          required=true,

@@ -5,6 +5,15 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 
+/**
+ * @OA\Schema(
+ *      title="Empresa request",
+ *      description="Request de empresa",
+ *      type="object",
+ *      required={"name","CIF","email","password","direccion","contacto"}
+ * )
+ */
+
 class EmpresaRequest extends FormRequest
 {
     /**

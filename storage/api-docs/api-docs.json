@@ -36,7 +36,7 @@
                 "tags": [
                     "Alumnos"
                 ],
-                "summary": "Guarda un nuevo usuario con el rol de alumno",
+                "summary": "Guarda un nuevo usuario con el rol de alumno y crea un registro de alumno",
                 "description": "Devuelve los datos del alumno guardado",
                 "operationId": "storeAlumno",
                 "requestBody": {
@@ -318,6 +318,243 @@
                 }
             }
         },
+        "/api/empresas": {
+            "get": {
+                "tags": [
+                    "Empresas"
+                ],
+                "summary": "Pedir la lista de empresas",
+                "description": "Devuelve la lista de todas las empresas registradas",
+                "operationId": "getEmpresasList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmpresaResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Empresas"
+                ],
+                "summary": "Guarda un nuevo usuario con el rol de empresa y crea un registro de empresa",
+                "description": "Devuelve los datos de la empresa guardada",
+                "operationId": "storeEmpresa",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "direccion",
+                                    "email",
+                                    "password",
+                                    "CIF",
+                                    "contacto"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Aceitunas el Serpis S.A."
+                                    },
+                                    "CIF": {
+                                        "type": "string",
+                                        "example": "B59015379"
+                                    },
+                                    "direccion": {
+                                        "type": "string",
+                                        "example": "C/Sant Nicolau, 36, 03802 Alcoi, Alacant"
+                                    },
+                                    "contacto": {
+                                        "type": "string",
+                                        "example": "Caroline Welch"
+                                    },
+                                    "web": {
+                                        "type": "string",
+                                        "example": "www.myweb.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "PassWord12345"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmpresaResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/empresas/{id}": {
+            "get": {
+                "tags": [
+                    "Empresas"
+                ],
+                "summary": "Pedir la información de una empresa",
+                "description": "Devuelve la información de la empresa requerida a partir de su id de usuario",
+                "operationId": "getEmpresaById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Usuario id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AlumnoResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Empresas"
+                ],
+                "summary": "Actualizar datos de la empresa",
+                "description": "Devuelve los datos actualizados de la empresa",
+                "operationId": "updateEmpresa",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id de usuario",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EmpresaRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmpresaResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Empresas"
+                ],
+                "summary": "Eliminar una empresa registrada",
+                "description": "Elimina el registro de la empresa y no devuelve nada",
+                "operationId": "deleteEmpresa",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID usuario",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
         "/api/familias": {
             "get": {
                 "tags": [
@@ -461,6 +698,19 @@
                 ],
                 "type": "object"
             },
+            "EmpresaRequest": {
+                "title": "Empresa request",
+                "description": "Request de empresa",
+                "required": [
+                    "name",
+                    "CIF",
+                    "email",
+                    "password",
+                    "direccion",
+                    "contacto"
+                ],
+                "type": "object"
+            },
             "AlumnoResource": {
                 "title": "AlumnoResource",
                 "description": "**Alumnos**",
@@ -573,6 +823,65 @@
                 "type": "object",
                 "xml": {
                     "name": "CicloResource"
+                }
+            },
+            "EmpresaResource": {
+                "title": "EmpresaResource",
+                "description": "**Empresas**",
+                "properties": {
+                    "data": {
+                        "title": "data",
+                        "description": "Data wrapper",
+                        "properties": {
+                            "id": {
+                                "title": "ID",
+                                "description": "Identificador único del usuario",
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "name": {
+                                "title": "Nombre",
+                                "description": "Nombre de la empresa",
+                                "type": "string",
+                                "example": "Aceitunas el Serpis S.L."
+                            },
+                            "direccion": {
+                                "title": "Dirección",
+                                "description": "Dirección completa de la empresa",
+                                "type": "string",
+                                "example": "3953 Ziemann Groves\\nWest Kathrynmouth, MT 41924"
+                            },
+                            "email": {
+                                "title": "Email",
+                                "description": "Email de contacto de la empresa",
+                                "type": "string",
+                                "example": "kendra66@example.com"
+                            },
+                            "CIF": {
+                                "title": "CIF",
+                                "description": "CIF de la empresa, será único para cada registro",
+                                "type": "string",
+                                "example": "B59015379"
+                            },
+                            "contacto": {
+                                "title": "Contacto",
+                                "description": "Contacto de la empresa",
+                                "type": "string",
+                                "example": "Juanita Lehner Cassin"
+                            },
+                            "web": {
+                                "title": "Web",
+                                "description": "Web de la empresa",
+                                "type": "string",
+                                "example": "www.miweb.com"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "EmpresaResource"
                 }
             },
             "FamiliaResource": {
