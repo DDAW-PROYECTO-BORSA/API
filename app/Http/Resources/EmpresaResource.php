@@ -21,6 +21,7 @@ class EmpresaResource extends JsonResource
             'email' => $this->user->email,
             'CIF' => $this->CIF,
             'contacto' => $this->contacto,
+            'rol' => $this->user->rol,
             'web' => $this->web != null ? $this->web : ''
         ];
     }

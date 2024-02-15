@@ -96,6 +96,7 @@ class AlumnoResource extends JsonResource
             'direccion' => $this->user->direccion,
             'email' => $this->user->email,
             'CV' => $this->CV,
+            'rol' => $this->user->rol,
             'ciclos' => $this->ciclos
         ];
     }
