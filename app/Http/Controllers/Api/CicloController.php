@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CicloCollection;
 use App\Http\Resources\CicloResource;
 use App\Models\Ciclos;
 use Illuminate\Http\Request;
@@ -34,7 +35,8 @@ class CicloController extends Controller
      */
     public function index()
     {
-        return CicloResource::collection(Ciclos::all());
+        $ciclos = Ciclos::all();
+        return new CicloCollection($ciclos);
     }
 
     /**
