@@ -28,7 +28,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::apiResource('empresas',EmpresaController::class);
 Route::apiResource('ofertas',OfertaController::class);
 Route::apiResource('familias', FamiliaController::class);
-Route::apiResource('ciclosApi', CicloController::class);
+Route::apiResource('ciclos', CicloController::class);
 
 Route::post('ofertas/inscribirse/{idOferta}/{idAlumno}', [OfertaController::class,'inscribirse']);
 Route::get('ofertas/candidatos/{id}', [OfertaController::class,'candidatos']);
