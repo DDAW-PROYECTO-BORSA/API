@@ -8,7 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * @OA\Schema(
  *     title="FamiliaResource",
- *     description="Project resource",
+ *     description="**Familias**",
  *     @OA\Xml(name="FamiliaResource"),
  * )
  */
@@ -22,13 +22,46 @@ class FamiliaResource extends JsonResource
      */
 
     /**
+     * @var \App\Models\Familias[]
      * @OA\Property(
      *     property="data",
      *     title="data",
-     *     description="Data wrapper"
-     * )
+     *     description="Data wrapper",
+     *     type="object",
      *
-     * @var \App\Models\Familias[]
+     * @OA\Property(
+     *      property="id",
+     *      title="ID",
+     *      description="Identificador único de la familia",
+     *      type="integer",
+     *      example=1
+     *  ),
+     *
+     *
+     * @OA\Property(
+     *       property="vliteral",
+     *       title="Vliteral",
+     *       description="Nombre completo de la familia en valencià, en mayúsculas",
+     *       type="string",
+     *       example="ANGLES"
+     *   ),
+     *
+     * @OA\Property(
+     *        property="cliteral",
+     *        title="Cliteral",
+     *        description="Nombre completo de la familia en castellano, en mayúsculas",
+     *        type="string",
+     *        example="INGLES"
+     *    ),
+     *
+     * @OA\Property(
+     *       property="deptcurt",
+     *       title="Abreviación",
+     *       description="Abreviación del nombre de la família",
+     *       type="string",
+     *       example="Ang"
+     *   )
+     * )
      */
     public function toArray(Request $request): array
     {

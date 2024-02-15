@@ -21,17 +21,13 @@ class CicloController extends Controller
      *      path="/api/ciclos",
      *      operationId="getCiclosList",
      *      tags={"Ciclos"},
-     *      summary="Get list of Ciclos",
-     *      description="Returns list of ciclos",
+     *      summary="Pedir la lista de ciclos",
+     *      description="Devuelve la lista de todos los ciclos registrados",
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
      *          @OA\JsonContent(ref="#/components/schemas/CicloResource")
-     *       ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      )
+     *       )
      *     )
      */
     public function index()
@@ -55,7 +51,7 @@ class CicloController extends Controller
     /**
      * @OA\Get(
      *      path="/api/ciclos/{id}",
-     *      operationId="getCiclosById",
+     *      operationId="getCicloById",
      *      tags={"Ciclos"},
      *      summary="Pedir la información de un ciclo",
      *      description="Devuelve la información del ciclo requerido a partir de su id",
@@ -73,10 +69,6 @@ class CicloController extends Controller
      *          description="Operación realizada con éxito",
      *          @OA\JsonContent(ref="#/components/schemas/CicloResource")
      *       ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      ),
      *     @OA\Response(
      *           response=400,
      *           description="Bad Request"

@@ -41,7 +41,7 @@ class CicloResource extends JsonResource
      * @OA\Property(
      *      property="ciclo",
      *      title="Ciclo",
-     *      description="Nombre del Ciclo",
+     *      description="Siglas del ciclo, en mayúsculas",
      *      type="string",
      *      example="CFM APD (LOE)"
      *  ),

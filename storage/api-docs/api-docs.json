@@ -10,8 +10,8 @@
                 "tags": [
                     "Ciclos"
                 ],
-                "summary": "Get list of Ciclos",
-                "description": "Returns list of ciclos",
+                "summary": "Pedir la lista de ciclos",
+                "description": "Devuelve la lista de todos los ciclos registrados",
                 "operationId": "getCiclosList",
                 "responses": {
                     "200": {
@@ -23,9 +23,6 @@
                                 }
                             }
                         }
-                    },
-                    "403": {
-                        "description": "Forbidden"
                     }
                 }
             }
@@ -37,7 +34,7 @@
                 ],
                 "summary": "Pedir la información de un ciclo",
                 "description": "Devuelve la información del ciclo requerido a partir de su id",
-                "operationId": "getCiclosById",
+                "operationId": "getCicloById",
                 "parameters": [
                     {
                         "name": "id",
@@ -60,9 +57,6 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden"
-                    },
                     "400": {
                         "description": "Bad Request"
                     }
@@ -74,8 +68,8 @@
                 "tags": [
                     "Familias"
                 ],
-                "summary": "Get list of Familias",
-                "description": "Returns list of Familias",
+                "summary": "Pedir la lista de familias",
+                "description": "Devuelve la lista de todas las familias registradas",
                 "operationId": "getFamiliasList",
                 "responses": {
                     "200": {
@@ -87,9 +81,42 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/api/familias/{id}": {
+            "get": {
+                "tags": [
+                    "Familias"
+                ],
+                "summary": "Pedir la información de una familia",
+                "description": "Devuelve la información de la familia requerida a partir de su id",
+                "operationId": "getFamiliaById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Familia id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación realizada con éxito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FamiliaResource"
+                                }
+                            }
+                        }
                     },
-                    "403": {
-                        "description": "Forbidden"
+                    "400": {
+                        "description": "Bad Request"
                     }
                 }
             }
@@ -183,7 +210,7 @@
                             },
                             "ciclo": {
                                 "title": "Ciclo",
-                                "description": "Nombre del Ciclo",
+                                "description": "Siglas del ciclo, en mayúsculas",
                                 "type": "string",
                                 "example": "CFM APD (LOE)"
                             },
@@ -222,13 +249,38 @@
             },
             "FamiliaResource": {
                 "title": "FamiliaResource",
-                "description": "Project resource",
+                "description": "**Familias**",
                 "properties": {
                     "data": {
                         "title": "data",
                         "description": "Data wrapper",
-                        "type": "array",
-                        "items": {}
+                        "properties": {
+                            "id": {
+                                "title": "ID",
+                                "description": "Identificador único de la familia",
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "vliteral": {
+                                "title": "Vliteral",
+                                "description": "Nombre completo de la familia en valencià, en mayúsculas",
+                                "type": "string",
+                                "example": "ANGLES"
+                            },
+                            "cliteral": {
+                                "title": "Cliteral",
+                                "description": "Nombre completo de la familia en castellano, en mayúsculas",
+                                "type": "string",
+                                "example": "INGLES"
+                            },
+                            "deptcurt": {
+                                "title": "Abreviación",
+                                "description": "Abreviación del nombre de la família",
+                                "type": "string",
+                                "example": "Ang"
+                            }
+                        },
+                        "type": "object"
                     }
                 },
                 "type": "object",
