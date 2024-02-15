@@ -29,7 +29,7 @@ class EmpresaController extends Controller
     public function store(EmpresaRequest $request)
     {
         try {
-            $existeEmpresa = Empresas::where('CIF', $request->CIF)->get();
+            $existeEmpresa = Empresas::where('CIF', $request->CIF)->first();
 
             if($existeEmpresa){
                 return response()->json("Esta empresa ya existe", 500);
