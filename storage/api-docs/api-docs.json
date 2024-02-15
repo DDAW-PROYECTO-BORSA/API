@@ -44,7 +44,62 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/AlumnoRequest"
+                                "required": [
+                                    "name",
+                                    "apellidos",
+                                    "direccion",
+                                    "email",
+                                    "CV",
+                                    "password",
+                                    "ciclosA"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Pepe"
+                                    },
+                                    "apellidos": {
+                                        "type": "string",
+                                        "example": "Llopis Carbonell"
+                                    },
+                                    "direccion": {
+                                        "type": "string",
+                                        "example": "C/Sant Nicolau, 36, 03802 Alcoi, Alacant"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "user1@mail.com"
+                                    },
+                                    "CV": {
+                                        "type": "string",
+                                        "example": "www.myCV.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "PassWord12345"
+                                    },
+                                    "ciclosA": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "ciclo_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "finalizacion": {
+                                                    "type": "string",
+                                                    "example": "2023-12-01 12:00:00"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
                             }
                         }
                     }

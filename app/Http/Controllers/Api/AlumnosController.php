@@ -63,31 +63,23 @@ class AlumnosController extends Controller
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\JsonContent(
-     *              required={"name","apellidos","direccion","email","CV","password","ciclos"},
-     *              @OA\Property(property="name", type="string", format= "name", example="Pepe"),
-     *              @OA\Property(property="apellidos", type="string", format= "apellidos", example="Llopis Carbonell"),
-     *              @OA\Property(property="direccion", type="string", format= "direccion", example="C/Sant Nicolau, 36, 03802 Alcoi, Alacant"),
-     *              @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
-     *              @OA\Property(property="CV", type="string", format= "url", example="www.myCV.com"),
-     *              @OA\Property(property="password", type="string", format="password", example="PassWord12345"),
-     *              @OA\Parameter(name="ciclosA", description="Array de ciclos del alumno",required="true", in="query",
-     *                  @OA\Array(
-     *                      @OA\Items(type: "object",
-     *              properties:
-     *                  id:
-     *                      type: integer
-     *                      format: int64
-     *                      example: 1
-     *                  ciclo_id:
-     *                      type: integer
-     *                      format: int64
-     *                      example: 1
-     *                  finalizacion:
-     *                      type: string
-     *                      format: date-time
-     *                      example: "2023-12-01T12:00:00.000Z")
+     *              required={"name","apellidos","direccion","email","CV","password","ciclosA"},
+     *              @OA\Property(property="name", type="string", example="Pepe"),
+     *              @OA\Property(property="apellidos", type="string", example="Llopis Carbonell"),
+     *              @OA\Property(property="direccion", type="string", example="C/Sant Nicolau, 36, 03802 Alcoi, Alacant"),
+     *              @OA\Property(property="email", type="string", example="user1@mail.com"),
+     *              @OA\Property(property="CV", type="string", example="www.myCV.com"),
+     *              @OA\Property(property="password", type="string", example="PassWord12345"),
+     *              @OA\Property(property="ciclosA", type="array",
+     *              @OA\Items(
+     *                  type="object",
+     *                  @OA\Property(property="id", type="integer", example=1),
+     *                  @OA\Property(property="ciclo_id", type="integer", example=1),
+     *                  @OA\Property(property="finalizacion", type="string", example="2023-12-01 12:00:00")
+     *              )
+     *          )
      *      )
-     *    ),
+     *  ),
      *      @OA\Response(
      *           response=200,
      *           description="Successful operation",
