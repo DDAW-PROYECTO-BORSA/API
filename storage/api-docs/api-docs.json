@@ -1,0 +1,697 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "BorsaBatoi API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/alumnos": {
+            "get": {
+                "tags": [
+                    "Alumnos"
+                ],
+                "summary": "Pedir la lista de alumnos",
+                "description": "Devuelve la lista de todos los alumnos registrados",
+                "operationId": "getAlumnosList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AlumnoResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Alumnos"
+                ],
+                "summary": "Guarda un nuevo usuario con el rol de alumno",
+                "description": "Devuelve los datos del alumno guardado",
+                "operationId": "storeAlumno",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AlumnoRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AlumnoResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/alumnos/{id}": {
+            "get": {
+                "tags": [
+                    "Alumnos"
+                ],
+                "summary": "Pedir la información de un alumno",
+                "description": "Devuelve la información del alumno requerido a partir de su id de usuario",
+                "operationId": "getAlumnoById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Usuario id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AlumnoResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Alumnos"
+                ],
+                "summary": "Actualizar datos del alumno",
+                "description": "Devuelve los datos actualizados del alumno",
+                "operationId": "updateAlumno",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id de usuario",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AlumnoRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AlumnoResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Alumnos"
+                ],
+                "summary": "Eliminar un alumno registrado",
+                "description": "Elimina el registro del alumno y no devuelve nada",
+                "operationId": "deleteAlumno",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID usuario",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/api/ciclos": {
+            "get": {
+                "tags": [
+                    "Ciclos"
+                ],
+                "summary": "Pedir la lista de ciclos",
+                "description": "Devuelve la lista de todos los ciclos registrados",
+                "operationId": "getCiclosList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CicloResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/ciclos/{id}": {
+            "get": {
+                "tags": [
+                    "Ciclos"
+                ],
+                "summary": "Pedir la información de un ciclo",
+                "description": "Devuelve la información del ciclo requerido a partir de su id",
+                "operationId": "getCicloById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Ciclo id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CicloResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
+        "/api/familias": {
+            "get": {
+                "tags": [
+                    "Familias"
+                ],
+                "summary": "Pedir la lista de familias",
+                "description": "Devuelve la lista de todas las familias registradas",
+                "operationId": "getFamiliasList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FamiliaResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/familias/{id}": {
+            "get": {
+                "tags": [
+                    "Familias"
+                ],
+                "summary": "Pedir la información de una familia",
+                "description": "Devuelve la información de la familia requerida a partir de su id",
+                "operationId": "getFamiliaById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Familia id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación realizada con éxito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FamiliaResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Sign in",
+                "description": "Login by email, password",
+                "operationId": "authLogin",
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user1@mail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "PassWord12345"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Wrong credentials response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Email o contraseña erróneos. Por favor, inténtalo de nuevo"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AlumnoRequest": {
+                "title": "Alumno request",
+                "description": "Request de alumno",
+                "required": [
+                    "name",
+                    "apellido",
+                    "email",
+                    "password",
+                    "direccion"
+                ],
+                "type": "object"
+            },
+            "AlumnoResource": {
+                "title": "AlumnoResource",
+                "description": "**Alumnos**",
+                "properties": {
+                    "data": {
+                        "title": "data",
+                        "description": "Data wrapper",
+                        "properties": {
+                            "id": {
+                                "title": "ID",
+                                "description": "Identificador único del usuario",
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "name": {
+                                "title": "Nombre",
+                                "description": "Nombre del alumno",
+                                "type": "string",
+                                "example": "Crystal"
+                            },
+                            "apellidos": {
+                                "title": "Apellidos",
+                                "description": "Apellidos del alumno",
+                                "type": "string",
+                                "example": "Lehner Cassin"
+                            },
+                            "direccion": {
+                                "title": "Dirección",
+                                "description": "Dirección completa del alumno",
+                                "type": "string",
+                                "example": "3953 Ziemann Groves\\nWest Kathrynmouth, MT 41924"
+                            },
+                            "email": {
+                                "title": "Email",
+                                "description": "Email de contacto del alumno",
+                                "type": "string",
+                                "example": "kendra66@example.com"
+                            },
+                            "CV": {
+                                "title": "CV",
+                                "description": "Enlace a su curriculum vitae o perfil de LinkedIn",
+                                "type": "string",
+                                "example": "www.myCV.com"
+                            },
+                            "ciclos": {
+                                "title": "Ciclos",
+                                "description": "Ciclos los cuales ha cursado el alumno",
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/CicloResource"
+                                }
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "AlumnoResource"
+                }
+            },
+            "CicloResource": {
+                "title": "CicloResource",
+                "description": "**Ciclos**",
+                "properties": {
+                    "data": {
+                        "title": "data",
+                        "description": "Data wrapper",
+                        "properties": {
+                            "id": {
+                                "title": "ID",
+                                "description": "Identificador único del ciclo",
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "ciclo": {
+                                "title": "Ciclo",
+                                "description": "Siglas del ciclo, en mayúsculas",
+                                "type": "string",
+                                "example": "CFM APD (LOE)"
+                            },
+                            "vliteral": {
+                                "title": "Vliteral",
+                                "description": "Nombre completo del Ciclo en valencià",
+                                "type": "string",
+                                "example": "Atenció a persones en situació de dependència"
+                            },
+                            "cliteral": {
+                                "title": "Cliteral",
+                                "description": "Nombre completo del Ciclo en castellano",
+                                "type": "string",
+                                "example": "Atención a personas en situación de dependencia"
+                            },
+                            "idFamilia": {
+                                "title": "IDFamilia",
+                                "description": "Identificador único de la familia a la que pertenece",
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "responsable": {
+                                "title": "Responsable",
+                                "description": "Identificador único del usuario responsable del ciclo",
+                                "type": "integer",
+                                "example": 1
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "CicloResource"
+                }
+            },
+            "FamiliaResource": {
+                "title": "FamiliaResource",
+                "description": "**Familias**",
+                "properties": {
+                    "data": {
+                        "title": "data",
+                        "description": "Data wrapper",
+                        "properties": {
+                            "id": {
+                                "title": "ID",
+                                "description": "Identificador único de la familia",
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "vliteral": {
+                                "title": "Vliteral",
+                                "description": "Nombre completo de la familia en valencià, en mayúsculas",
+                                "type": "string",
+                                "example": "ANGLES"
+                            },
+                            "cliteral": {
+                                "title": "Cliteral",
+                                "description": "Nombre completo de la familia en castellano, en mayúsculas",
+                                "type": "string",
+                                "example": "INGLES"
+                            },
+                            "deptcurt": {
+                                "title": "Abreviación",
+                                "description": "Abreviación del nombre de la família",
+                                "type": "string",
+                                "example": "Ang"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "FamiliaResource"
+                }
+            },
+            "Alumnos": {
+                "title": "Alumnos",
+                "description": "Modelo alumno",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "name": {
+                        "description": "Nombre del usuario",
+                        "type": "string",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "apellidos": {
+                        "title": "Apellidos",
+                        "description": "Apellidos del alumno",
+                        "type": "string",
+                        "readOnly": "true",
+                        "example": "Lehner Cassin"
+                    },
+                    "direccion": {
+                        "title": "Dirección",
+                        "description": "Dirección completa del alumno",
+                        "type": "string",
+                        "readOnly": "true",
+                        "example": "3953 Ziemann Groves\\nWest Kathrynmouth, MT 41924"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "description": "Email de contacto del alumno",
+                        "type": "string",
+                        "readOnly": "true",
+                        "example": "kendra66@example.com"
+                    },
+                    "CV": {
+                        "title": "CV",
+                        "description": "Enlace a su curriculum vitae o perfil de LinkedIn",
+                        "type": "string",
+                        "readOnly": "true",
+                        "example": "www.myCV.com"
+                    },
+                    "ciclos": {
+                        "title": "Ciclos",
+                        "description": "Ciclos los cuales ha cursado el alumno",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CicloResource"
+                        },
+                        "readOnly": "true"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Alumno"
+                }
+            },
+            "User": {
+                "required": [
+                    "password"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "role": {
+                        "description": "Rol del usuario",
+                        "type": "string",
+                        "readOnly": "true"
+                    },
+                    "email": {
+                        "description": "Email del usuario, será único",
+                        "type": "string",
+                        "format": "email",
+                        "readOnly": "true",
+                        "example": "user@gmail.com"
+                    },
+                    "email_verified_at": {
+                        "description": "Datetime marker of verification status",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true",
+                        "example": "2019-02-25 12:59:20"
+                    },
+                    "name": {
+                        "type": "string",
+                        "maxLength": 32,
+                        "example": "John"
+                    },
+                    "google_id": {
+                        "description": "ID de Google, se añadirá automáticamente si inicia sesión mediante una cuenta de Google con el mismo email con el que se ha registrado",
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "115280133845067737067"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "User"
+                }
+            }
+        },
+        "responses": {
+            "200": {
+                "description": "Success",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "user": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "apiAuth": {
+                "type": "http",
+                "description": "Login with email and password to get the authentication token",
+                "name": "Token based Based",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    }
+}

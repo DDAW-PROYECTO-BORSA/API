@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AlumnoRequest;
 use App\Http\Resources\AlumnoCollection;
 use App\Http\Resources\AlumnoResource;
 use App\Models\Alumnos;
@@ -12,7 +11,6 @@ use App\Models\Ciclos;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use App\Notifications\ActivarCuentaNotification;
 use App\Notifications\ValidarCiclosNotification;
 
@@ -22,6 +20,29 @@ class AlumnosController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    /**
+     * @OA\Get(
+     *      path="/api/alumnos",
+     *      operationId="getAlumnosList",
+     *      tags={"Alumnos"},
+     *      summary="Pedir la lista de alumnos",
+     *      description="Devuelve la lista de todos los alumnos registrados",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/AlumnoResource")
+     *       ),
+     *     @OA\Response(
+     *           response=401,
+     *           description="Unauthenticated",
+     *       ),
+     *       @OA\Response(
+     *           response=403,
+     *           description="Forbidden"
+     *       )
+     *     )
+     */
     public function index()
     {
         $alumnos = Alumnos::all();
@@ -30,6 +51,61 @@ class AlumnosController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     */
+
+    /**
+     * @OA\Post(
+     *      path="/api/alumnos",
+     *      operationId="storeAlumno",
+     *      tags={"Alumnos"},
+     *      summary="Guarda un nuevo usuario con el rol de alumno",
+     *      description="Devuelve los datos del alumno guardado",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(
+     *              required={"name","apellidos","direccion","email","CV","password","ciclos"},
+     *              @OA\Property(property="name", type="string", format= "name", example="Pepe"),
+     *              @OA\Property(property="apellidos", type="string", format= "apellidos", example="Llopis Carbonell"),
+     *              @OA\Property(property="direccion", type="string", format= "direccion", example="C/Sant Nicolau, 36, 03802 Alcoi, Alacant"),
+     *              @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
+     *              @OA\Property(property="CV", type="string", format= "url", example="www.myCV.com"),
+     *              @OA\Property(property="password", type="string", format="password", example="PassWord12345"),
+     *              @OA\Parameter(name="ciclosA", description="Array de ciclos del alumno",required="true", in="query",
+     *                  @OA\Array(
+     *                      @OA\Items(type: "object",
+     *              properties:
+     *                  id:
+     *                      type: integer
+     *                      format: int64
+     *                      example: 1
+     *                  ciclo_id:
+     *                      type: integer
+     *                      format: int64
+     *                      example: 1
+     *                  finalizacion:
+     *                      type: string
+     *                      format: date-time
+     *                      example: "2023-12-01T12:00:00.000Z")
+     *      )
+     *    ),
+     *      @OA\Response(
+     *           response=200,
+     *           description="Successful operation",
+     *           @OA\JsonContent(ref="#/components/schemas/AlumnoResource")
+     *        ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
      */
     public function store(Request $request)
     {
@@ -59,10 +135,10 @@ class AlumnosController extends Controller
                     $ciclo = Ciclos::findOrFail($cicloA['id']);
                     $alumno->ciclos()->attach($ciclo->id, [
                         'finalizacion' => $cicloA['finalizacion'],
-                    ]);                
+                    ]);
                     $ciclo->usuarioResponsable->notify(new ValidarCiclosNotification($alumno, $ciclo));
                     $admin->notify(new ValidarCiclosNotification($alumno, $ciclo));
-    
+
                 }
             }
 
@@ -76,6 +152,42 @@ class AlumnosController extends Controller
     /**
      * Display the specified resource.
      */
+
+    /**
+     * @OA\Get(
+     *      path="/api/alumnos/{id}",
+     *      operationId="getAlumnoById",
+     *      tags={"Alumnos"},
+     *      summary="Pedir la información de un alumno",
+     *      description="Devuelve la información del alumno requerido a partir de su id de usuario",
+     *      @OA\Parameter(
+     *           name="id",
+     *           description="Usuario id",
+     *           required=true,
+     *           in="path",
+     *           @OA\Schema(
+     *               type="integer"
+     *           )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/AlumnoResource")
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     */
     public function show(int $id)
     {
         $alumno = Alumnos::findOrFail($id);
@@ -85,6 +197,51 @@ class AlumnosController extends Controller
     /**
      * Update the specified resource in storage.
      */
+
+    /**
+     * @OA\Put(
+     *      path="/api/alumnos/{id}",
+     *      operationId="updateAlumno",
+     *      tags={"Alumnos"},
+     *      summary="Actualizar datos del alumno",
+     *      description="Devuelve los datos actualizados del alumno",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Id de usuario",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/AlumnoRequest")
+     *      ),
+     *     @OA\Response(
+     *           response=202,
+     *           description="Successful operation",
+     *           @OA\JsonContent(ref="#/components/schemas/AlumnoResource")
+     *        ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
+     * )
+     */
+
     public function update(Request $request, int $id)
     {
         $alumno = Alumnos::findOrFail($id);
@@ -105,6 +262,43 @@ class AlumnosController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+
+    /**
+     * @OA\Delete(
+     *      path="/api/alumnos/{id}",
+     *      operationId="deleteAlumno",
+     *      tags={"Alumnos"},
+     *      summary="Eliminar un alumno registrado",
+     *      description="Elimina el registro del alumno y no devuelve nada",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="ID usuario",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=204,
+     *          description="Successful operation",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
+     * )
+     */
+
     public function destroy(int $id)
     {
         try{
@@ -118,13 +312,15 @@ class AlumnosController extends Controller
 
             $alumno->apellido = null;
             $alumno->cv = null;
-            $alumno->update(); 
+            $alumno->update();
+
+            return response()->json('', 204);
 
         } catch (Exception $e) {
 
             return response()->json($e, 500);
         }
-               
+
 
     }
 }
