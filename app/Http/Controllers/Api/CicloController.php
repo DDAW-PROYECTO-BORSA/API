@@ -15,6 +15,7 @@ class CicloController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     /**
      * @OA\Get(
      *      path="/api/ciclos",
@@ -50,9 +51,43 @@ class CicloController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Ciclos $ciclos)
+
+    /**
+     * @OA\Get(
+     *      path="/api/ciclos/{id}",
+     *      operationId="getCiclosById",
+     *      tags={"Ciclos"},
+     *      summary="Pedir la información de un ciclo",
+     *      description="Devuelve la información del ciclo requerido a partir de su id",
+     *      @OA\Parameter(
+     *           name="id",
+     *           description="Ciclo id",
+     *           required=true,
+     *           in="path",
+     *           @OA\Schema(
+     *               type="integer"
+     *           )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Operación realizada con éxito",
+     *          @OA\JsonContent(ref="#/components/schemas/CicloResource")
+     *       ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *     @OA\Response(
+     *           response=400,
+     *           description="Bad Request"
+     *       )
+     *     )
+     */
+
+    public function show(int $id)
     {
-        //
+        $ciclo = Ciclos::findOrFail($id);
+        return response()->json(new CicloResource($ciclo), 200);
     }
 
     /**

@@ -30,6 +30,45 @@
                 }
             }
         },
+        "/api/ciclos/{id}": {
+            "get": {
+                "tags": [
+                    "Ciclos"
+                ],
+                "summary": "Pedir la información de un ciclo",
+                "description": "Devuelve la información del ciclo requerido a partir de su id",
+                "operationId": "getCiclosById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Ciclo id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación realizada con éxito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CicloResource"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
         "/api/familias": {
             "get": {
                 "tags": [
