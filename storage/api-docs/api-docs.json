@@ -682,6 +682,363 @@
                     }
                 }
             }
+        },
+        "/api/ofertas": {
+            "get": {
+                "tags": [
+                    "Ofertas"
+                ],
+                "summary": "Pedir la lista de ofertas",
+                "description": "Devuelve la lista de todas las ofertas registradas",
+                "operationId": "getOfertasList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/OfertaResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Ofertas"
+                ],
+                "summary": "Guarda una nueva oferta",
+                "description": "Devuelve los datos de la oferta guardado",
+                "operationId": "storeOferta",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "idEmpresa",
+                                    "apellidos",
+                                    "direccion",
+                                    "email",
+                                    "CV",
+                                    "password",
+                                    "ciclosA"
+                                ],
+                                "properties": {
+                                    "descripcion": {
+                                        "type": "string",
+                                        "example": "Se ofrece puesto de pinche de cocina en restaurante de Alcoi"
+                                    },
+                                    "duracion": {
+                                        "type": "integer",
+                                        "example": "2"
+                                    },
+                                    "contacto": {
+                                        "type": "string",
+                                        "example": "Joana Mira Martinez"
+                                    },
+                                    "metodoInscripcion": {
+                                        "type": "string",
+                                        "example": "email"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "user1@mail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "PassWord12345"
+                                    },
+                                    "ciclos": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "idCiclo": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/OfertaResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/ofertas/{id}": {
+            "get": {
+                "tags": [
+                    "Ofertas"
+                ],
+                "summary": "Pedir la información de una oferta",
+                "description": "Devuelve la información de la oferta requerida a partir de su id",
+                "operationId": "getOfertaById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Oferta id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/OfertaResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Ofertas"
+                ],
+                "summary": "Actualizar datos de la oferta",
+                "description": "Devuelve los datos actualizados de la oferta",
+                "operationId": "updateOferta",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id de la oferta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "descripcion": {
+                                        "type": "string",
+                                        "example": "Se ofrece puesto de pinche de cocina en restaurante de Alcoi"
+                                    },
+                                    "duracion": {
+                                        "type": "integer",
+                                        "example": "2"
+                                    },
+                                    "contacto": {
+                                        "type": "string",
+                                        "example": "Joana Mira Martinez"
+                                    },
+                                    "metodoInscripcion": {
+                                        "type": "string",
+                                        "example": "email"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "user1@mail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "PassWord12345"
+                                    },
+                                    "ciclos": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "idCiclo": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/OfertaResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Ofertas"
+                ],
+                "summary": "Eliminar una oferta registrada",
+                "description": "Elimina el registro de la oferta y no devuelve nada",
+                "operationId": "deleteOferta",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID oferta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/api/ofertas/inscribirse/{idOferta}/{idUsuario}": {
+            "post": {
+                "tags": [
+                    "Ofertas"
+                ],
+                "summary": "Inscripciómn de un usuario a una oferta",
+                "description": "Devuelve una frase confirmando la inscripicón correcta",
+                "operationId": "inscribirserOferta",
+                "parameters": [
+                    {
+                        "name": "idOferta",
+                        "in": "path",
+                        "description": "ID oferta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "idUsuario",
+                        "in": "path",
+                        "description": "ID usuario del alumno",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/ofertas/candidatos/{idOferta}": {
+            "get": {
+                "tags": [
+                    "Ofertas"
+                ],
+                "summary": "Pedir la lista de candidadatos inscritos a la oferta determinada",
+                "description": "Devuelve la lista de todos los candidatos inscritos",
+                "operationId": "getCandidatosList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AlumnoResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -925,6 +1282,89 @@
                     "name": "FamiliaResource"
                 }
             },
+            "OfertaResource": {
+                "title": "OfertaResource",
+                "description": "**Ofertas**",
+                "properties": {
+                    "data": {
+                        "title": "data",
+                        "description": "Data wrapper",
+                        "properties": {
+                            "id": {
+                                "title": "ID",
+                                "description": "Identificador único de la oferta",
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "empresa": {
+                                "title": "Empresa",
+                                "description": "Nombre de la empresa que ha publicado la oferta",
+                                "type": "string",
+                                "example": "Aceitunas el Serpis S.L."
+                            },
+                            "descripcion": {
+                                "title": "Descripción",
+                                "description": "Descripción de la oferta",
+                                "type": "string",
+                                "example": "Se ofrece puesto de trabajo como pinche de cocina en tienda de comidas para llevar"
+                            },
+                            "duracion": {
+                                "title": "Duración",
+                                "description": "Duración del contrato ofrecido, en meses",
+                                "type": "integer",
+                                "example": "4"
+                            },
+                            "ciclos": {
+                                "title": "Ciclos",
+                                "description": "Id de los ciclos necesarios que ha de tener el alumno para inscribirse",
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "idCiclo": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "cliteral": {
+                                            "type": "string",
+                                            "example": "Atención a personas en situación de dependencia"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "contacto": {
+                                "title": "Contacto",
+                                "description": "Persona de contacto de la empresa",
+                                "type": "string",
+                                "example": "Mrs. Katlyn Hessel MD"
+                            },
+                            "metodoInscripcion": {
+                                "title": "Método de inscripción",
+                                "description": "Método para inscribirse a la oferta, puede ser mediante la web o por email a la empresa",
+                                "type": "string",
+                                "example": "email"
+                            },
+                            "estado": {
+                                "title": "Estadp",
+                                "description": "Estado de la oferta, puede ser activa o caducada",
+                                "type": "string",
+                                "example": "caducada"
+                            },
+                            "validado": {
+                                "title": "Validado",
+                                "description": "Si la oferta ha sido validada por el responsable indicado",
+                                "type": "integer",
+                                "example": "1"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "OfertaResource"
+                }
+            },
             "Alumnos": {
                 "title": "Alumnos",
                 "description": "Modelo alumno",
@@ -981,6 +1421,64 @@
                 "type": "object",
                 "xml": {
                     "name": "Alumno"
+                }
+            },
+            "Ofertas": {
+                "title": "Ofertas",
+                "description": "Modelo oferta",
+                "properties": {
+                    "idEmpresa": {
+                        "description": "id de usuario de la empresa",
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "descripcion": {
+                        "title": "descripcion",
+                        "description": "Descripción de la oferta",
+                        "type": "string",
+                        "readOnly": "true",
+                        "example": "Ut officia vel debitis cupiditate repellat soluta sit aspernatur. Repudiandae magni quibusdam distinctio saepe id iste. Corporis officia ipsa ratione dolorum deserunt omnis."
+                    },
+                    "duracion": {
+                        "title": "Dirección",
+                        "description": "Duración del contrato, en meses",
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "12"
+                    },
+                    "contacto": {
+                        "title": "Contacto",
+                        "description": "Persona de contacto de la empresa",
+                        "type": "string",
+                        "readOnly": "true",
+                        "example": "Shania Morar"
+                    },
+                    "metodoInscripcion": {
+                        "title": "Método de inscripción",
+                        "description": "Los aspirantes se podrán inscribir mediante un email o em la propia web",
+                        "type": "string",
+                        "readOnly": "true",
+                        "example": "email"
+                    },
+                    "email": {
+                        "title": "email",
+                        "description": "Email donde inscribirse a la oferta",
+                        "type": "string",
+                        "readOnly": "true",
+                        "example": "example@empresa.com"
+                    },
+                    "estado": {
+                        "title": "Estado",
+                        "description": "Estado de la oferta, puede estar activa o caducada ",
+                        "type": "string",
+                        "readOnly": "false",
+                        "example": "activa"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Oferta"
                 }
             },
             "User": {
