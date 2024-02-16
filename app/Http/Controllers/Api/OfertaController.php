@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OfertaCollection;
 use App\Http\Resources\OfertaResource;
+use App\Models\Ciclos;
 use App\Models\Ofertas;
 use App\Models\User;
 use App\Models\Alumnos;
@@ -14,6 +15,7 @@ use App\Notifications\ValidarCiclosNotification;
 use Exception;
 use Illuminate\Http\Request;
 use App\Notifications\ValidarOfertaNotification;
+use Illuminate\Support\Facades\Auth;
 
 class OfertaController extends Controller
 {
@@ -27,6 +29,7 @@ class OfertaController extends Controller
      *      tags={"Ofertas"},
      *      summary="Pedir la lista de ofertas",
      *      description="Devuelve la lista de todas las ofertas registradas",
+     *      security={ {"apiAuth": {} }},
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
@@ -44,7 +47,24 @@ class OfertaController extends Controller
      */
     public function index()
     {
-        $ofertas = Ofertas::with('ciclos')->get();
+        $user = Auth::user();
+        if($user->rol === 'administrador') {
+            $ofertas = Ofertas::with('ciclos')->get();
+        } elseif ($user->rol === 'responsable'){
+            $ciclosResponsable = $user->ciclosComoResponsable->pluck('id');
+            $ofertas = Ofertas::whereHas('ciclos',function ($query) use ($ciclosResponsable) {
+                $query->whereIn('idCiclo', $ciclosResponsable);
+            })->get();
+        } elseif ($user->rol === 'empresa'){
+            $ofertas = Ofertas::where('idEmpresa',$user->id)->get();
+        } elseif($user->rol === 'alumno'){
+            $alumno = Alumnos::findOrFail($user->id);
+            $ciclosAlumno = $alumno->ciclos->pluck('id');
+            $ofertas = Ofertas::whereHas('ciclos',function ($query) use ($ciclosAlumno) {
+                $query->whereIn('idCiclo', $ciclosAlumno->toArray())->where('estado','activa')->where('validado',true);
+            })->get();
+        }
+
         return new OfertaCollection($ofertas);
     }
 
@@ -59,6 +79,7 @@ class OfertaController extends Controller
      *      tags={"Ofertas"},
      *      summary="Guarda una nueva oferta",
      *      description="Devuelve los datos de la oferta guardado",
+     *      security={ {"apiAuth": {} }},
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\JsonContent(
@@ -140,6 +161,7 @@ class OfertaController extends Controller
      *      tags={"Ofertas"},
      *      summary="Pedir la información de una oferta",
      *      description="Devuelve la información de la oferta requerida a partir de su id",
+     *      security={ {"apiAuth": {} }},
      *      @OA\Parameter(
      *           name="id",
      *           description="Oferta id",
@@ -172,7 +194,25 @@ class OfertaController extends Controller
     public function show(int $id)
     {
         $oferta = Ofertas::findOrFail($id);
-        return response()->json(new OfertaResource($oferta), 200);
+        $user = Auth::user();
+
+        if($user->rol === 'administrador') {
+            return response()->json(new OfertaResource($oferta), 200);
+        } elseif ($user->rol === 'responsable') {
+            $ciclosResponsable = $user->ciclosComoResponsable->pluck('id')->toArray();
+            if(count(array_intersect($ciclosResponsable,$oferta->ciclos->pluck('id')->toArray())) > 0){
+                return response()->json(new OfertaResource($oferta), 200);
+            }
+        } elseif ($user->rol === 'empresa' && $oferta->empresa->id === $user->id){
+            return response()->json(new OfertaResource($oferta), 200);
+        } elseif($user->rol === 'alumno' && $oferta->estado === 'activa' && $oferta->validado){
+            $alumno = Alumnos::findOrFail($user->id);
+            $ciclosAlumno = $alumno->ciclos->pluck('id')->toArray();
+            if(count(array_intersect($ciclosAlumno,$oferta->ciclos->pluck('id')->toArray())) > 0){
+                return response()->json(new OfertaResource($oferta), 200);
+            }
+        }
+
     }
 
     /**
@@ -186,6 +226,7 @@ class OfertaController extends Controller
      *      tags={"Ofertas"},
      *      summary="Actualizar datos de la oferta",
      *      description="Devuelve los datos actualizados de la oferta",
+     *     security={ {"apiAuth": {} }},
      *      @OA\Parameter(
      *          name="id",
      *          description="Id de la oferta",
@@ -271,6 +312,7 @@ class OfertaController extends Controller
      *      tags={"Ofertas"},
      *      summary="Eliminar una oferta registrada",
      *      description="Elimina el registro de la oferta y no devuelve nada",
+     *      security={ {"apiAuth": {} }},
      *      @OA\Parameter(
      *          name="id",
      *          description="ID oferta",
@@ -320,6 +362,7 @@ class OfertaController extends Controller
      *      tags={"Ofertas"},
      *      summary="Inscripciómn de un usuario a una oferta",
      *      description="Devuelve una frase confirmando la inscripicón correcta",
+     *      security={ {"apiAuth": {} }},
      *      @OA\Parameter (
      *          name="idOferta",
      *          description="ID oferta",
@@ -361,7 +404,6 @@ class OfertaController extends Controller
 
     public function inscribirse(int $idOferta, int $idAlumno){
         try {
-
             $oferta = Ofertas::findOrFail($idOferta);
             $alumno = Alumnos::findOrFail($idAlumno);
 
@@ -380,6 +422,7 @@ class OfertaController extends Controller
      *      tags={"Ofertas"},
      *      summary="Pedir la lista de candidadatos inscritos a la oferta determinada",
      *      description="Devuelve la lista de todos los candidatos inscritos",
+     *      security={ {"apiAuth": {} }},
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",

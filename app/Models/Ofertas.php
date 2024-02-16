@@ -44,4 +44,5 @@ class Ofertas extends Model
     {
         return $this->belongsTo(Empresas::class,'idEmpresa');
     }
+
 }

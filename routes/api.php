@@ -26,7 +26,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('empresas',EmpresaController::class);
-Route::apiResource('ofertas',OfertaController::class);
+Route::apiResource('ofertas',OfertaController::class)->middleware('auth:sanctum');
 Route::apiResource('familias', FamiliaController::class);
 Route::apiResource('ciclos', CicloController::class);
 
