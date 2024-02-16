@@ -4,24 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Ofertas;
-use App\Models\Ciclos;
+use App\Models\Empresas;
 use App\Models\User;
 use App\Notifications\CambiarContrasenyaNotification;
 
-class OfertasController extends Controller
+class EmpresasController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $ciclosId = auth()->user()->ciclosComoResponsable->pluck('id');
-        $ofertas = Ofertas::whereHas('ciclos', function ($query) use ($ciclosId) {
-            $query->whereIn('id', $ciclosId);
-        })->paginate(10);
-
-        return view('ofertas.index', compact('ofertas'));
+        $empresas = Empresas::paginate(10);
+        return view('empresas.index', compact('empresas'));
     }
 
     
@@ -47,8 +42,8 @@ class OfertasController extends Controller
      */
     public function show(string $id)
     {
-        $oferta = Ofertas::findOrFail($id);
-        return view('ofertas.show', compact('oferta'));
+        $empresa = Empresas::findOrFail($id);
+        return view('empresas.show', compact('empresa'));
 
     }
 
@@ -57,7 +52,9 @@ class OfertasController extends Controller
      */
     public function edit(string $id)
     {
-       //
+        $empresa = Empresas::findOrFail($id);
+
+        return view('empresas.edit', compact('empresa'));
     }
 
     /**
@@ -65,7 +62,11 @@ class OfertasController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->password = $request->get('password');
+        $user->save();
+
+        return "Tu contraseña se ha actualizado correctamente";
     }
 
     /**
@@ -73,20 +74,10 @@ class OfertasController extends Controller
      */
     public function destroy(string $id)
     {
-        $oferta = Ofertas::findOrFail($id);
-        $oferta->estado = 'caducada';
-        $oferta->update();
-        $oferta->delete();
+        $empresa = Empresas::find($id);
+        $empresa->delete();
+        $user = User::find($id);
+        $user->delete();
+
     }
-
-
-    public function estadisticas()
-    {
-        $stats = Ciclos::withCount('ofertas')
-        ->with('ofertas.alumnos')
-        ->paginate(10);
-
-        return view('ofertas.stats', compact('stats'));
-    }
-
 }
