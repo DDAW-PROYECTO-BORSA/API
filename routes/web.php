@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CiclosController;
 use App\Http\Controllers\AlumnoController;
 use App\Http\Controllers\OfertasController;
+use App\Http\Controllers\EmpresasController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ActivateUserThingsController;
 use App\Models\User;
@@ -46,7 +47,10 @@ Route::get('/ofertas/activar/{id}/', [ActivateUserThingsController::class, 'vali
 
 Route::resource('ciclos', CiclosController::class);
 Route::resource('alumnos', AlumnoController::class);
+Route::get('/ofertas/stats', [OfertasController::class, 'estadisticas'])->name('ofertas.estadisticas');
 Route::resource('ofertas', OfertasController::class);
+Route::resource('empresas', EmpresasController::class);
+
 Route::get('/users/activos', [UserController::class, 'alumnosActivos'])->name('users.alumnosActivos');
 
 Route::resource('users', UserController::class);
