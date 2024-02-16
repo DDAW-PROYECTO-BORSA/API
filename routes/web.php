@@ -49,13 +49,12 @@ Route::resource('ciclos', CiclosController::class);
 Route::resource('alumnos', AlumnoController::class);
 Route::get('/ofertas/stats', [OfertasController::class, 'estadisticas'])->name('ofertas.estadisticas');
 Route::resource('ofertas', OfertasController::class);
-Route::resource('empresas', EmpresasController::class);
+Route::resource('empresas', EmpresasController::class)->middleware('rol:administrador');
 
 Route::get('/users/activos', [UserController::class, 'alumnosActivos'])->name('users.alumnosActivos');
 
 Route::resource('users', UserController::class);
 Route::get('/users/cambiarContrasenya/{id}', [UserController::class, 'cambiarContrasenya']);
-
 
 
 
