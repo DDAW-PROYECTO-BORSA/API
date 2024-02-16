@@ -4,6 +4,8 @@ use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CiclosController;
+use App\Http\Controllers\AlumnoController;
+use App\Http\Controllers\OfertasController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ActivateUserThingsController;
 use App\Models\User;
@@ -22,9 +24,8 @@ use Laravel\Socialite\Facades\Socialite;
 */
 
 Route::get('/', function () {
-    auth()->logout();
     return view('welcome');
-});
+})->name('home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -44,6 +45,10 @@ Route::get('/alumnos/activar/{userId}/{cicloId}', [ActivateUserThingsController:
 Route::get('/ofertas/activar/{id}/', [ActivateUserThingsController::class, 'validarOferta']);
 
 Route::resource('ciclos', CiclosController::class);
+Route::resource('alumnos', AlumnoController::class);
+Route::resource('ofertas', OfertasController::class);
+Route::get('/users/activos', [UserController::class, 'alumnosActivos'])->name('users.alumnosActivos');
+
 Route::resource('users', UserController::class);
 Route::get('/users/cambiarContrasenya/{id}', [UserController::class, 'cambiarContrasenya']);
 

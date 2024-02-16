@@ -4,18 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Alumnos;
 use App\Models\User;
 use App\Notifications\CambiarContrasenyaNotification;
 
-class UserController extends Controller
+class AlumnoController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $users = User::whereNotNull('name')->paginate(10);
-        return view('users.index', compact('users'));
+        $ciclosId = auth()->user()->ciclosComoResponsable->pluck('id');
+        $alumnos = Alumnos::whereNotNull("apellido")->whereHas('ciclos', function ($query) use ($ciclosId) {
+            $query->whereIn('id', $ciclosId);
+        })->paginate(10);
+
+        return view('alumnos.index', compact('alumnos'));
     }
 
     
@@ -41,8 +46,8 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        $user = User::findOrFail($id);
-        return view('users.show', compact('user'));
+        $alumno = Alumnos::findOrFail($id);
+        return view('alumnos.show', compact('alumno'));
 
     }
 
@@ -51,9 +56,9 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        $user = User::findOrFail($id);
+        $alumno = Alumnos::findOrFail($id);
 
-        return view('users.edit', compact('user'));
+        return view('alumnos.edit', compact('alumno'));
     }
 
     /**
@@ -73,22 +78,17 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
-    }
+        $alumno = Alumnos::findOrFail($id);
+        $user = User::findOrFail($id);    
+        $user->name = null;
+        $user->email = null;
+        $user->password = null;
+        $user->direccion = null;
+        $user->activado = 0;
+        $user->update();
 
-    public function cambiarContrasenya(int $id){
-        $user = User::findOrFail($id);
-        $user->notify(new CambiarContrasenyaNotification($user));
-
-    }
-
-
-    public function alumnosActivos()
-    {
-        $users = User::whereNotNull('name')
-        ->where('rol', 'alumno')
-        ->where('activado', 1)
-        ->paginate(10);        
-        return view('users.index', compact('users'));
+        $alumno->apellido = null;
+        $alumno->cv = null;
+        $alumno->update();
     }
 }

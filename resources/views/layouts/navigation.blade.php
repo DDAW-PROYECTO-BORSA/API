@@ -21,6 +21,15 @@
                     <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
                         {{ __('Usuarios') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('alumnos.index')" :active="request()->routeIs('alumnos.index')">
+                        {{ __('Mis alumnos') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('ofertas.index')" :active="request()->routeIs('ofertas.index')">
+                        {{ __('Ofertas') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('users.alumnosActivos')" :active="request()->routeIs('users.alumnosActivos')">
+                        {{ __('Alumnos Activos') }}
+                    </x-nav-link>
                 </div>
             </div>
 

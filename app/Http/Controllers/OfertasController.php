@@ -4,18 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Ofertas;
 use App\Models\User;
 use App\Notifications\CambiarContrasenyaNotification;
 
-class UserController extends Controller
+class OfertasController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $users = User::whereNotNull('name')->paginate(10);
-        return view('users.index', compact('users'));
+        $ciclosId = auth()->user()->ciclosComoResponsable->pluck('id');
+        $ofertas = Ofertas::whereHas('ciclos', function ($query) use ($ciclosId) {
+            $query->whereIn('id', $ciclosId);
+        })->paginate(10);
+
+        return view('ofertas.index', compact('ofertas'));
     }
 
     
@@ -41,8 +46,8 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        $user = User::findOrFail($id);
-        return view('users.show', compact('user'));
+        $oferta = Ofertas::findOrFail($id);
+        return view('ofertas.show', compact('oferta'));
 
     }
 
@@ -51,9 +56,7 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        $user = User::findOrFail($id);
-
-        return view('users.edit', compact('user'));
+       //
     }
 
     /**
@@ -61,11 +64,7 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $user = User::findOrFail($id);
-        $user->password = $request->get('password');
-        $user->save();
-
-        return "Tu contraseña se ha actualizado correctamente";
+        //
     }
 
     /**
@@ -73,22 +72,10 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $oferta = Ofertas::findOrFail($id);
+        $oferta->estado = 'caducada';
+        $oferta->update();
+        $oferta->delete();
     }
 
-    public function cambiarContrasenya(int $id){
-        $user = User::findOrFail($id);
-        $user->notify(new CambiarContrasenyaNotification($user));
-
-    }
-
-
-    public function alumnosActivos()
-    {
-        $users = User::whereNotNull('name')
-        ->where('rol', 'alumno')
-        ->where('activado', 1)
-        ->paginate(10);        
-        return view('users.index', compact('users'));
-    }
 }
