@@ -3,24 +3,44 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\EmpresaResource;
 use App\Http\Resources\OfertaCollection;
 use App\Http\Resources\OfertaResource;
-use App\Models\Empresas;
 use App\Models\Ofertas;
 use App\Models\User;
 use App\Models\Alumnos;
 use App\Http\Resources\AlumnoCollection;
 
+use App\Notifications\ValidarCiclosNotification;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use App\Notifications\ValidarOfertaNotification;
 
 class OfertaController extends Controller
 {
     /**
      * Display a listing of the resource.
+     */
+    /**
+     * @OA\Get(
+     *      path="/api/ofertas",
+     *      operationId="getOfertasList",
+     *      tags={"Ofertas"},
+     *      summary="Pedir la lista de ofertas",
+     *      description="Devuelve la lista de todas las ofertas registradas",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/OfertaResource")
+     *       ),
+     *     @OA\Response(
+     *           response=401,
+     *           description="Unauthenticated",
+     *       ),
+     *       @OA\Response(
+     *           response=403,
+     *           description="Forbidden"
+     *       )
+     *     )
      */
     public function index()
     {
@@ -31,6 +51,52 @@ class OfertaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
+    /**
+     * @OA\Post(
+     *      path="/api/ofertas",
+     *      operationId="storeOferta",
+     *      tags={"Ofertas"},
+     *      summary="Guarda una nueva oferta",
+     *      description="Devuelve los datos de la oferta guardado",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(
+     *              required={"idEmpresa","apellidos","direccion","email","CV","password","ciclosA"},
+     *              @OA\Property(property="descripcion", type="string", example="Se ofrece puesto de pinche de cocina en restaurante de Alcoi"),
+     *              @OA\Property(property="duracion", type="integer", example="2"),
+     *              @OA\Property(property="contacto", type="string", example="Joana Mira Martinez"),
+     *              @OA\Property(property="metodoInscripcion", type="string", example="email"),
+     *              @OA\Property(property="email", type="string", example="user1@mail.com"),
+     *              @OA\Property(property="password", type="string", example="PassWord12345"),
+     *              @OA\Property(property="ciclos", type="array",
+     *              @OA\Items(
+     *                  type="object",
+     *                  @OA\Property(property="idCiclo", type="integer", example=1)
+     *              )
+     *          )
+     *      )
+     *  ),
+     *      @OA\Response(
+     *           response=200,
+     *           description="Successful operation",
+     *           @OA\JsonContent(ref="#/components/schemas/OfertaResource")
+     *        ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     */
+
     public function store(Request $request)
     {
         try {
@@ -56,7 +122,6 @@ class OfertaController extends Controller
                 $ciclo->usuarioResponsable->notify(new ValidarOfertaNotification($oferta->empresas->user, $oferta));
             }
 
-
             return response()->json(new OfertaResource($oferta),201);
         } catch (Exception $e) {
 
@@ -67,6 +132,43 @@ class OfertaController extends Controller
     /**
      * Display the specified resource.
      */
+
+    /**
+     * @OA\Get(
+     *      path="/api/ofertas/{id}",
+     *      operationId="getOfertaById",
+     *      tags={"Ofertas"},
+     *      summary="Pedir la información de una oferta",
+     *      description="Devuelve la información de la oferta requerida a partir de su id",
+     *      @OA\Parameter(
+     *           name="id",
+     *           description="Oferta id",
+     *           required=true,
+     *           in="path",
+     *           @OA\Schema(
+     *               type="integer"
+     *           )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/OfertaResource")
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     */
+
     public function show(int $id)
     {
         $oferta = Ofertas::findOrFail($id);
@@ -76,6 +178,65 @@ class OfertaController extends Controller
     /**
      * Update the specified resource in storage.
      */
+
+    /**
+     * @OA\Put(
+     *      path="/api/ofertas/{id}",
+     *      operationId="updateOferta",
+     *      tags={"Ofertas"},
+     *      summary="Actualizar datos de la oferta",
+     *      description="Devuelve los datos actualizados de la oferta",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Id de la oferta",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(
+     *               @OA\Property(property="descripcion", type="string", example="Se ofrece puesto de pinche de cocina en restaurante de Alcoi"),
+     *               @OA\Property(property="duracion", type="integer", example="2"),
+     *               @OA\Property(property="contacto", type="string", example="Joana Mira Martinez"),
+     *               @OA\Property(property="metodoInscripcion", type="string", example="email"),
+     *               @OA\Property(property="email", type="string", example="user1@mail.com"),
+     *               @OA\Property(property="password", type="string", example="PassWord12345"),
+     *               @OA\Property(property="ciclos", type="array",
+     *                  @OA\Items(
+     *                      type="object",
+     *                      @OA\Property(property="idCiclo", type="integer", example=1)
+     *                  )
+     *              )
+     *          )
+     *     ),
+     *     @OA\Response(
+     *           response=202,
+     *           description="Successful operation",
+     *           @OA\JsonContent(ref="#/components/schemas/OfertaResource")
+     *        ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
+     * )
+     *
+     */
+
     public function update(Request $request, int $id)
     {
         try {
@@ -103,6 +264,42 @@ class OfertaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    /**
+     * @OA\Delete(
+     *      path="/api/ofertas/{id}",
+     *      operationId="deleteOferta",
+     *      tags={"Ofertas"},
+     *      summary="Eliminar una oferta registrada",
+     *      description="Elimina el registro de la oferta y no devuelve nada",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="ID oferta",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=204,
+     *          description="Successful operation",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
+     * )
+     */
+
     public function destroy(int $id)
     {
         try {
@@ -115,6 +312,52 @@ class OfertaController extends Controller
             return response()->json($e->getMessage(), 500);
         }
     }
+
+    /**
+     * @OA\Post(
+     *      path="/api/ofertas/inscribirse/{idOferta}/{idUsuario}",
+     *      operationId="inscribirserOferta",
+     *      tags={"Ofertas"},
+     *      summary="Inscripciómn de un usuario a una oferta",
+     *      description="Devuelve una frase confirmando la inscripicón correcta",
+     *      @OA\Parameter (
+     *          name="idOferta",
+     *          description="ID oferta",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *        ),
+     *     @OA\Parameter (
+     *           name="idUsuario",
+     *           description="ID usuario del alumno",
+     *           required=true,
+     *           in="path",
+     *           @OA\Schema(
+     *               type="integer"
+     *           )
+     *         )
+     *
+     *  ,
+     *      @OA\Response(
+     *           response=200,
+     *           description="Successful operation"
+     *        ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated"
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     */
 
     public function inscribirse(int $idOferta, int $idAlumno){
         try {
@@ -129,6 +372,29 @@ class OfertaController extends Controller
             return response()->json($e->getMessage(), 500);
         }
     }
+
+    /**
+     * @OA\Get(
+     *      path="/api/ofertas/candidatos/{idOferta}",
+     *      operationId="getCandidatosList",
+     *      tags={"Ofertas"},
+     *      summary="Pedir la lista de candidadatos inscritos a la oferta determinada",
+     *      description="Devuelve la lista de todos los candidatos inscritos",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/AlumnoResource")
+     *       ),
+     *     @OA\Response(
+     *           response=401,
+     *           description="Unauthenticated",
+     *       ),
+     *       @OA\Response(
+     *           response=403,
+     *           description="Forbidden"
+     *       )
+     *     )
+     */
 
 
     public function candidatos(int $id){

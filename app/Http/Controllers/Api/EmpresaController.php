@@ -9,7 +9,6 @@ use App\Http\Resources\EmpresaResource;
 use App\Models\Empresas;
 use App\Models\User;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class EmpresaController extends Controller
@@ -17,6 +16,30 @@ class EmpresaController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    /**
+     * @OA\Get(
+     *      path="/api/empresas",
+     *      operationId="getEmpresasList",
+     *      tags={"Empresas"},
+     *      summary="Pedir la lista de empresas",
+     *      description="Devuelve la lista de todas las empresas registradas",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/EmpresaResource")
+     *       ),
+     *     @OA\Response(
+     *           response=401,
+     *           description="Unauthenticated",
+     *       ),
+     *       @OA\Response(
+     *           response=403,
+     *           description="Forbidden"
+     *       )
+     *     )
+     */
+
     public function index()
     {
         $empresas = Empresas::all();
@@ -26,6 +49,49 @@ class EmpresaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    /**
+     * @OA\Post(
+     *      path="/api/empresas",
+     *      operationId="storeEmpresa",
+     *      tags={"Empresas"},
+     *      summary="Guarda un nuevo usuario con el rol de empresa y crea un registro de empresa",
+     *      description="Devuelve los datos de la empresa guardada",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(
+     *              required={"name","direccion","email","password","CIF","contacto"},
+     *              @OA\Property(property="name", type="string", example="Aceitunas el Serpis S.A."),
+     *              @OA\Property(property="CIF", type="string", example="B59015379"),
+     *              @OA\Property(property="direccion", type="string", example="C/Sant Nicolau, 36, 03802 Alcoi, Alacant"),
+     *              @OA\Property(property="contacto", type="string", example="Caroline Welch"),
+     *              @OA\Property(property="web", type="string", example="www.myweb.com"),
+     *              @OA\Property(property="password", type="string", example="PassWord12345")
+     *          )
+     *      ),
+     *      @OA\Response(
+     *           response=200,
+     *           description="Successful operation",
+     *           @OA\JsonContent(ref="#/components/schemas/EmpresaResource")
+     *        ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *           response=500,
+     *           description="Internal server error"
+     *       )
+     * )
+     */
+
     public function store(EmpresaRequest $request)
     {
         try {
@@ -54,7 +120,7 @@ class EmpresaController extends Controller
 
             return response()->json(new EmpresaResource($empresa),201);
             }
-           
+
         } catch (Exception $e) {
 
             return response()->json($e->getMessage(), 500);
@@ -64,6 +130,42 @@ class EmpresaController extends Controller
     /**
      * Display the specified resource.
      */
+    /**
+     * @OA\Get(
+     *      path="/api/empresas/{id}",
+     *      operationId="getEmpresaById",
+     *      tags={"Empresas"},
+     *      summary="Pedir la información de una empresa",
+     *      description="Devuelve la información de la empresa requerida a partir de su id de usuario",
+     *      @OA\Parameter(
+     *           name="id",
+     *           description="Usuario id",
+     *           required=true,
+     *           in="path",
+     *           @OA\Schema(
+     *               type="integer"
+     *           )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/AlumnoResource")
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     */
+
     public function show(int $id)
     {
         $empresa = Empresas::findOrFail($id);
@@ -73,6 +175,51 @@ class EmpresaController extends Controller
     /**
      * Update the specified resource in storage.
      */
+
+    /**
+     * @OA\Put(
+     *      path="/api/empresas/{id}",
+     *      operationId="updateEmpresa",
+     *      tags={"Empresas"},
+     *      summary="Actualizar datos de la empresa",
+     *      description="Devuelve los datos actualizados de la empresa",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Id de usuario",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/EmpresaRequest")
+     *      ),
+     *     @OA\Response(
+     *           response=202,
+     *           description="Successful operation",
+     *           @OA\JsonContent(ref="#/components/schemas/EmpresaResource")
+     *        ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
+     * )
+     */
+
     public function update(EmpresaRequest $request, int $id)
     {
         $empresa = Empresas::findOrFail($id);
@@ -94,6 +241,42 @@ class EmpresaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+
+    /**
+     * @OA\Delete(
+     *      path="/api/empresas/{id}",
+     *      operationId="deleteEmpresa",
+     *      tags={"Empresas"},
+     *      summary="Eliminar una empresa registrada",
+     *      description="Elimina el registro de la empresa y no devuelve nada",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="ID usuario",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=204,
+     *          description="Successful operation",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
+     * )
+     */
     public function destroy(string $id)
     {
         try {
@@ -107,6 +290,5 @@ class EmpresaController extends Controller
         } catch (Exception $e) {
             return response()->json($e->getMessage(), 500);
         }
-
     }
 }
