@@ -70,6 +70,6 @@ class User extends Authenticatable
     }
 
     function ciclosComoResponsable(){
-        return $this->hasOne(Ciclos::class, 'responsable', 'id');
+        return $this->hasMany(Ciclos::class, 'responsable', 'id');
     }
 }

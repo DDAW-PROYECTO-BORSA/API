@@ -300,6 +300,7 @@ class AlumnosController extends Controller
             $user->email = null;
             $user->password = null;
             $user->direccion = null;
+            $user->activado = 0;
             $user->update();
 
             $alumno->apellido = null;
