@@ -43,7 +43,7 @@ class EmpresaResource extends JsonResource
      *      title="Nombre",
      *      description="Nombre de la empresa",
      *      type="string",
-     *      example="Aceitunas el Serpis S.L."
+     *      example="CIPFP Batoi S.L."
      *  ),
      *
      * @OA\Property(

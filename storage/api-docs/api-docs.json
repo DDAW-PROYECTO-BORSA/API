@@ -398,7 +398,7 @@
                                 "properties": {
                                     "name": {
                                         "type": "string",
-                                        "example": "Aceitunas el Serpis S.A."
+                                        "example": "CIPFP Batoi S.A."
                                     },
                                     "CIF": {
                                         "type": "string",
@@ -1318,7 +1318,7 @@
                                 "title": "Nombre",
                                 "description": "Nombre de la empresa",
                                 "type": "string",
-                                "example": "Aceitunas el Serpis S.L."
+                                "example": "CIPFP Batoi S.L."
                             },
                             "direccion": {
                                 "title": "Dirección",
@@ -1418,7 +1418,7 @@
                                 "title": "Empresa",
                                 "description": "Nombre de la empresa que ha publicado la oferta",
                                 "type": "string",
-                                "example": "Aceitunas el Serpis S.L."
+                                "example": "CIPFP Batoi S.L."
                             },
                             "descripcion": {
                                 "title": "Descripción",

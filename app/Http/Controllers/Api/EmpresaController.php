@@ -62,7 +62,7 @@ class EmpresaController extends Controller
      *          required=true,
      *          @OA\JsonContent(
      *              required={"name","direccion","email","password","CIF","contacto"},
-     *              @OA\Property(property="name", type="string", example="Aceitunas el Serpis S.A."),
+     *              @OA\Property(property="name", type="string", example="CIPFP Batoi S.A."),
      *              @OA\Property(property="CIF", type="string", example="B59015379"),
      *              @OA\Property(property="direccion", type="string", example="C/Sant Nicolau, 36, 03802 Alcoi, Alacant"),
      *              @OA\Property(property="contacto", type="string", example="Caroline Welch"),
