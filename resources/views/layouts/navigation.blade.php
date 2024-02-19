@@ -15,12 +15,25 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @if (auth()->user()->rol === "administrador")
                     <x-nav-link :href="route('ciclos.index')" :active="request()->routeIs('ciclos.index')">
                         {{ __('Ciclos') }}
                     </x-nav-link>
                     <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
                         {{ __('Usuarios') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('empresas.index')" :active="request()->routeIs('empresas.index')">
+                        {{ __('Empresas') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('users.create')" :active="request()->routeIs('users.create')">
+                        {{ __('Nuevo Responsable') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('ofertas.estadisticas')" :active="request()->routeIs('ofertas.estadisticas')">
+                        {{ __('Estadisticas') }}
+                    </x-nav-link>
+                    @endif
+                    
+                    @if (auth()->user()->rol === "responsable")
                     <x-nav-link :href="route('alumnos.index')" :active="request()->routeIs('alumnos.index')">
                         {{ __('Mis alumnos') }}
                     </x-nav-link>
@@ -30,6 +43,10 @@
                     <x-nav-link :href="route('users.alumnosActivos')" :active="request()->routeIs('users.alumnosActivos')">
                         {{ __('Alumnos Activos') }}
                     </x-nav-link>
+                        
+                    @endif
+                    
+                    
                 </div>
             </div>
 

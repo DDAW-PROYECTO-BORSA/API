@@ -23,10 +23,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+
 });
 
+
 Route::apiResource('empresas',EmpresaController::class);
-Route::apiResource('ofertas',OfertaController::class)->middleware('auth:sanctum');
+//Route::apiResource('ofertas',OfertaController::class)->middleware('auth:sanctum');
+//Route::middleware(['auth:sanctum', 'rol:administrador'])->apiResource('ofertas', EmpresaController::class);
+Route::apiResource('ofertas',OfertaController::class);
 Route::apiResource('familias', FamiliaController::class);
 Route::apiResource('ciclos', CicloController::class);
 
