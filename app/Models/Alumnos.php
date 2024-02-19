@@ -52,7 +52,7 @@ class Alumnos extends Model
 
     function ofertas()
     {
-        return $this->belongsToMany(Ciclos::class, 'alumnosCiclos', 'idUsuario', 'idCiclo')->withPivot('finalizacion', 'validado');
+        return $this->belongsToMany(Ofertas::class, 'ofertasAlumnos', 'idUsuario', 'idOferta');
     }
 
     public function delete()
