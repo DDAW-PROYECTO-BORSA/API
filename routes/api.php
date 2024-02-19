@@ -26,11 +26,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 });
 
-Route::middleware(['auth:sanctum', 'rol:administrador'])->apiResource('ofertas', EmpresaController::class);
-//Route::apiResource('ofertas',OfertaController::class);
+
+Route::apiResource('empresas',EmpresaController::class);
+//Route::apiResource('ofertas',OfertaController::class)->middleware('auth:sanctum');
+//Route::middleware(['auth:sanctum', 'rol:administrador'])->apiResource('ofertas', EmpresaController::class);
+Route::apiResource('ofertas',OfertaController::class);
 Route::apiResource('familias', FamiliaController::class);
 Route::apiResource('ciclos', CicloController::class);
-Route::apiResource('empresas',OfertaController::class);
 
 Route::post('ofertas/inscribirse/{idOferta}/{idAlumno}', [OfertaController::class,'inscribirse']);
 Route::get('ofertas/candidatos/{id}', [OfertaController::class,'candidatos']);
