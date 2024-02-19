@@ -28,6 +28,7 @@ class AlumnosController extends Controller
      *      tags={"Alumnos"},
      *      summary="Pedir la lista de alumnos",
      *      description="Devuelve la lista de todos los alumnos registrados",
+     *      security={ {"apiAuth": {} }},
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
@@ -60,6 +61,7 @@ class AlumnosController extends Controller
      *      tags={"Alumnos"},
      *      summary="Guarda un nuevo usuario con el rol de alumno y crea un registro de alumno",
      *      description="Devuelve los datos del alumno guardado",
+     *      security={ {"apiAuth": {} }},
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\JsonContent(
@@ -152,6 +154,7 @@ class AlumnosController extends Controller
      *      tags={"Alumnos"},
      *      summary="Pedir la información de un alumno",
      *      description="Devuelve la información del alumno requerido a partir de su id de usuario",
+     *      security={ {"apiAuth": {} }},
      *      @OA\Parameter(
      *           name="id",
      *           description="Usuario id",
@@ -197,6 +200,7 @@ class AlumnosController extends Controller
      *      tags={"Alumnos"},
      *      summary="Actualizar datos del alumno",
      *      description="Devuelve los datos actualizados del alumno",
+     *      security={ {"apiAuth": {} }},
      *      @OA\Parameter(
      *          name="id",
      *          description="Id de usuario",
@@ -262,6 +266,7 @@ class AlumnosController extends Controller
      *      tags={"Alumnos"},
      *      summary="Eliminar un alumno registrado",
      *      description="Elimina el registro del alumno y no devuelve nada",
+     *      security={ {"apiAuth": {} }},
      *      @OA\Parameter(
      *          name="id",
      *          description="ID usuario",
