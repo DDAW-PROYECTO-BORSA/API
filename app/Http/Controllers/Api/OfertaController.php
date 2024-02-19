@@ -381,7 +381,6 @@ class OfertaController extends Controller
      *               type="integer"
      *           )
      *         )
-     *
      *  ,
      *      @OA\Response(
      *           response=200,
@@ -449,5 +448,44 @@ class OfertaController extends Controller
         } catch (Exception $e) {
             return response()->json($e->getMessage(), 500);
         }
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/api/ofertas/inscritasAlumno/",
+     *      operationId="getOfertasAlumno",
+     *      tags={"Ofertas"},
+     *      summary="Pedir la lista de ofertas a las que se ha inscrito el alumno autenticado",
+     *      description="Devuelve la lista de todas las ofertas a las que se ha inscrito",
+     *      security={ {"apiAuth": {} }},
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/OfertaResource")
+     *       ),
+     *     @OA\Response(
+     *           response=401,
+     *           description="Unauthenticated",
+     *       ),
+     *       @OA\Response(
+     *           response=403,
+     *           description="Forbidden"
+     *       )
+     *     )
+     */
+
+    public function ofertasAlumnoInscrito() {
+        $user = Auth::user();
+
+        if($user->rol === 'alumno'){
+            $alumno = Alumnos::findOrFail($user->id);
+            try {
+                $ofertas = $alumno->ofertas;
+            } catch(Exception $e){
+                return response()->json($e->getMessage(), 500);
+            }
+        }
+
+        return new OfertaCollection($ofertas);
     }
 }
