@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use App\Notifications\CambiarContrasenyaNotification;
 
 class UserController extends Controller
@@ -25,7 +26,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('users.create');
     }
 
     /**
@@ -33,7 +34,15 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Crear usuario
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->direccion = $request->direccion;
+        $user->rol = 'responsable';
+        $user->activado = 1;
+        $user->save();
     }
 
     /**
