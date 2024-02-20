@@ -120,7 +120,7 @@ class LoginController extends Controller
                 'samesite' => 'Strict',
             ]);
 
-            return response()->json(['token' => $token], 200);
+                return response()->json(['token' => $token], 200);
 
         } catch (Exception $e) {
             // Maneig d'errors

@@ -11,7 +11,7 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <h2 class="text-xl font-semibold mb-4">¡Bienvenido, {{ Auth::user()->name }}!</h2>
                     <p class="mb-6">Aquí podrás gestionar BorsaBatoi.</p>
-                    <a href="http://app1.projecteg4.ddaw.es:8025" class="inline-block">
+                    <a href="http://app1.projecteg4.ddaw.es:8025" class="inline-block" target="_blank">
                         <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 pr-2">
                                 <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />

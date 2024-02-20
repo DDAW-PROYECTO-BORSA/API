@@ -1,25 +1,13 @@
+
 <x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route('login') }}">
+    <x-application-logo class="block w-auto mb-6 mx-auto h-[200px] " />
+
+    <form method="POST" action="{{ route('login') }}" class="flex flex-col w-full h-full pb-6 text-center bg-white rounded-3xl">
         @csrf
         <div class="text-center">
-            <div class="flex justify-center">
-                <div class="mx-2">
-                    <a href="http://localhost/auth/google">
-                        <img src="https://static-00.iconduck.com/assets.00/google-icon-512x512-tqc9el3r.png" alt="Google" width="50px">
-                    </a>
-                </div>
-                <div class="mx-2">
-                    <a href="">
-                        <img src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-github-1.png" alt="Github" width="50px">
-                    </a>
-                </div>
-            </div>
-        </div>
-
-
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email')" />
@@ -35,7 +23,6 @@
                             type="password"
                             name="password"
                             required autocomplete="current-password" />
-
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
@@ -47,16 +34,24 @@
             </label>
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                    {{ __('¿Has olvidado tu contraseña?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ms-3">
+        <div class="flex items-center justify-end my-4">
+            <x-primary-button class="w-full flex items-center justify-center">
                 {{ __('Inicia sesión') }}
             </x-primary-button>
+        </div>
+            <div class="flex items-center mb-3">
+                <hr class="h-0 border-b border-solid border-grey-500 grow">
+                <p class="mx-4 text-grey-600">o</p>
+                <hr class="h-0 border-b border-solid border-grey-500 grow">
+            </div>
+            <a href="http://localhost/auth/google" class="flex items-center justify-center w-full py-4 mb-6 text-sm font-medium transition duration-300 rounded-2xl text-grey-900 bg-grey-300 hover:bg-grey-400 focus:ring-4 focus:ring-grey-300">
+                <img class="h-5 mr-2" src="https://raw.githubusercontent.com/Loopple/loopple-public-assets/main/motion-tailwind/img/logos/logo-google.png" alt="">
+                Continúa con Google
+            </a>
+            <a href="" class="flex items-center justify-center w-full py-4 mb-6 text-sm font-medium transition duration-300 rounded-2xl text-grey-900 bg-grey-300 hover:bg-grey-400 focus:ring-4 focus:ring-grey-300">
+                <img class="h-5 mr-2" src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-github-1.png" alt="">
+                Continúa con GitHub
+            </a>
         </div>
     </form>
 </x-guest-layout>
