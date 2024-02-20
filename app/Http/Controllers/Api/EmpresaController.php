@@ -229,12 +229,12 @@ class EmpresaController extends Controller
         $empresa = Empresas::findOrFail($id);
         $user = User::findOrFail($id);
         $user->name = $request->name;
-        $user->email = $request->email;
+        $user->email = $user->email;
         $user->password = Hash::make($request->password);
         $user->direccion = $request->direccion;
         $user->update();
 
-        $empresa->CIF = $request->CIF;
+        $empresa->CIF = $empresa->CIF;
         $empresa->contacto = $request->contacto;
         $empresa->web = $request->web;
         $empresa->update();
