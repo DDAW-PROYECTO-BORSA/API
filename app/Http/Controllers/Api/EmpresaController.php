@@ -24,6 +24,7 @@ class EmpresaController extends Controller
      *      tags={"Empresas"},
      *      summary="Pedir la lista de empresas",
      *      description="Devuelve la lista de todas las empresas registradas",
+     *      security={ {"apiAuth": {} }},
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
@@ -56,11 +57,12 @@ class EmpresaController extends Controller
      *      tags={"Empresas"},
      *      summary="Guarda un nuevo usuario con el rol de empresa y crea un registro de empresa",
      *      description="Devuelve los datos de la empresa guardada",
+     *      security={ {"apiAuth": {} }},
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\JsonContent(
      *              required={"name","direccion","email","password","CIF","contacto"},
-     *              @OA\Property(property="name", type="string", example="Aceitunas el Serpis S.A."),
+     *              @OA\Property(property="name", type="string", example="CIPFP Batoi S.A."),
      *              @OA\Property(property="CIF", type="string", example="B59015379"),
      *              @OA\Property(property="direccion", type="string", example="C/Sant Nicolau, 36, 03802 Alcoi, Alacant"),
      *              @OA\Property(property="contacto", type="string", example="Caroline Welch"),
@@ -137,6 +139,7 @@ class EmpresaController extends Controller
      *      tags={"Empresas"},
      *      summary="Pedir la información de una empresa",
      *      description="Devuelve la información de la empresa requerida a partir de su id de usuario",
+     *      security={ {"apiAuth": {} }},
      *      @OA\Parameter(
      *           name="id",
      *           description="Usuario id",
@@ -183,6 +186,7 @@ class EmpresaController extends Controller
      *      tags={"Empresas"},
      *      summary="Actualizar datos de la empresa",
      *      description="Devuelve los datos actualizados de la empresa",
+     *      security={ {"apiAuth": {} }},
      *      @OA\Parameter(
      *          name="id",
      *          description="Id de usuario",
@@ -249,6 +253,7 @@ class EmpresaController extends Controller
      *      tags={"Empresas"},
      *      summary="Eliminar una empresa registrada",
      *      description="Elimina el registro de la empresa y no devuelve nada",
+     *      security={ {"apiAuth": {} }},
      *      @OA\Parameter(
      *          name="id",
      *          description="ID usuario",

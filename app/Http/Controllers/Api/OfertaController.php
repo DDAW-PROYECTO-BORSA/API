@@ -476,7 +476,6 @@ class OfertaController extends Controller
 
     public function ofertasAlumnoInscrito() {
         $user = Auth::user();
-
         if($user->rol === 'alumno'){
             $alumno = Alumnos::findOrFail($user->id);
             try {
@@ -485,7 +484,6 @@ class OfertaController extends Controller
                 return response()->json($e->getMessage(), 500);
             }
         }
-
         return new OfertaCollection($ofertas);
     }
 }

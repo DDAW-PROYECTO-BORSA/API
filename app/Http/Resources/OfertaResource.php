@@ -44,7 +44,7 @@ class OfertaResource extends JsonResource
      *      title="Empresa",
      *      description="Nombre de la empresa que ha publicado la oferta",
      *      type="string",
-     *      example="Aceitunas el Serpis S.L."
+     *      example="CIPFP Batoi S.L."
      *  ),
      *
      * @OA\Property(
