@@ -31,13 +31,20 @@ class EmpresaRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => 'required',
-            'email' => 'email:rfc,dns',
-            'password' => ['required', Password::min(8)->letters()->mixedCase()->numbers()],
-            'CIF' => 'required|min:9|max:9,unique',
             'direccion' => 'required|min:4',
-            'contacto' => 'required'
+            'contacto' => 'required',
+            'web' => ['sometimes','url']
         ];
+
+        if($this->method() == 'post'){
+            $rules['email'] = 'email:rfc,dns';
+            $rules['password'] = ['required', Password::min(8)->letters()->mixedCase()->numbers()];
+            $rules['CIF'] = 'required|min:9|max:9,unique';
+        } elseif ($this->method() == 'put' || $this->method() == 'patch') {
+            $rules['password'] = ['sometimes', Password::min(8)->letters()->mixedCase()->numbers()];
+        }
+    return $rules;
     }
 }
