@@ -23,9 +23,9 @@ class OfertasFactory extends Factory
             'duracion' => $this->faker->numberBetween(1, 999),
             'contacto' => $this->faker->name,
             'metodoInscripcion' => $this->faker->randomElement(['email', 'inscripcion']),
-            'estado' => $this->faker->randomElement(['activa', 'caducada']),
+            'estado' => 'activa',
             'email' => $this->faker->email,
-            'validado' => $this->faker->boolean
+            'validado' => true
         ];
     }
 }

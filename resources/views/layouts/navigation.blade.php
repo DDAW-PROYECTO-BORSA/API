@@ -70,6 +70,7 @@
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
+                        
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -115,6 +116,38 @@
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
+
+                @if (auth()->user()->rol === "administrador")
+                    <x-responsive-nav-link :href="route('ciclos.index')" :active="request()->routeIs('ciclos.index')">
+                        {{ __('Ciclos') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
+                        {{ __('Usuarios') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('empresas.index')" :active="request()->routeIs('empresas.index')">
+                        {{ __('Empresas') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('users.create')" :active="request()->routeIs('users.create')">
+                        {{ __('Nuevo Responsable') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('ofertas.estadisticas')" :active="request()->routeIs('ofertas.estadisticas')">
+                        {{ __('Estadisticas') }}
+                    </x-responsive-nav-link>
+                    @endif
+                    
+                    @if (auth()->user()->rol === "responsable")
+                    <x-responsive-nav-link :href="route('alumnos.index')" :active="request()->routeIs('alumnos.index')">
+                        {{ __('Mis alumnos') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('ofertas.index')" :active="request()->routeIs('ofertas.index')">
+                        {{ __('Ofertas') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('users.alumnosActivos')" :active="request()->routeIs('users.alumnosActivos')">
+                        {{ __('Alumnos Activos') }}
+                    </x-responsive-nav-link>
+                        
+                    @endif
+                    
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
