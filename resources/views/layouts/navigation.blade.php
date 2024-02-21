@@ -11,7 +11,7 @@
                     <!-- Navigation Links -->
                     <div class="hidden space-x-8 lg:-my-px lg:ms-10 lg:flex">
                         <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                            {{ __('Dashboard') }}
+                            {{ __('Inicio') }}
                         </x-nav-link>
                         @if (auth()->user()->rol === "administrador")
                             <x-nav-link :href="route('ciclos.index')" :active="request()->routeIs('ciclos.index')">
@@ -27,7 +27,7 @@
                                 {{ __('Nuevo Responsable') }}
                             </x-nav-link>
                             <x-nav-link :href="route('ofertas.estadisticas')" :active="request()->routeIs('ofertas.estadisticas')">
-                                {{ __('Estadisticas') }}
+                                {{ __('Estadísticas') }}
                             </x-nav-link>
                         @endif
 
@@ -62,7 +62,7 @@
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
+                            {{ __('Perfil') }}
                         </x-dropdown-link>
 
 
@@ -73,7 +73,7 @@
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('Cerrar sesión') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>
@@ -96,7 +96,7 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden lg:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+                {{ __('Inicio') }}
             </x-responsive-nav-link>
         </div>
 
@@ -109,7 +109,7 @@
 
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
+                    {{ __('Perfil') }}
                 </x-responsive-nav-link>
 
                 @if (auth()->user()->rol === "administrador")
@@ -151,7 +151,7 @@
                     <x-responsive-nav-link :href="route('logout')"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();">
-                        {{ __('Log Out') }}
+                        {{ __('Cerrar sesión') }}
                     </x-responsive-nav-link>
                 </form>
             </div>
