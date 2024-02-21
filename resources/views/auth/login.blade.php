@@ -1,10 +1,7 @@
-
 <x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
-
     <x-application-logo class="block w-auto mb-6 mx-auto h-[200px] " />
-
     <form method="POST" action="{{ route('login') }}" class="flex flex-col w-full h-full pb-6 text-center bg-white rounded-3xl">
         @csrf
         <div class="text-center">
@@ -52,6 +49,8 @@
                 <img class="h-5 mr-2" src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-github-1.png" alt="">
                 Continúa con GitHub
             </a>
+
+            <p class="mx-4 text-grey-600">Si tienes problemas con el inicio de sesión, contacta con el <a href="mailto:admin@borsabatoi.es" class="font-semibold hover:text-blue-600">administrador</a></p>
         </div>
     </form>
 </x-guest-layout>
