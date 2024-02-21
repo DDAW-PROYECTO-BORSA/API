@@ -125,7 +125,9 @@ class OfertaController extends Controller
 
             // Crear oferta
             $oferta = new Ofertas();
-            $oferta->idEmpresa = $request->idEmpresa;
+            $empresa = Empresas::findOrFail($request->idEmpresa);
+            $oferta->empresa()->save($empresa);
+
             $oferta->descripcion = $request->descripcion;
             $oferta->duracion = $request->duracion;
             $oferta->contacto = $request->contacto == null ? $oferta->empresa->contacto : $request->contacto;
@@ -138,7 +140,7 @@ class OfertaController extends Controller
             $oferta->save();
             $oferta->ciclos()->attach($ciclos);
 
-            $admin->notify(new ValidarCiclosNotification($alumno, $ciclo));
+            $admin->notify(new ValidarCiclosNotification($empresa, $ciclo));
             foreach ($oferta->ciclos as $ciclo) {
                 $ciclo->usuarioResponsable->notify(new ValidarOfertaNotification($oferta->empresas->user, $oferta));
             }
