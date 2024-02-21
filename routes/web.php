@@ -63,16 +63,19 @@ Route::get('/auth/github/redirect', function (){
 Route::get('/auth/github/callback', function () {
     $githubUser = Socialite::driver('github')->user();
 
-    $admin = User::where('rol', 'administrador')->first();
-            // Crear usuario
     $user = User::where('email', $githubUser->email)->first();
 
     if(!$user->providerId){
         $user->providerId = $githubUser->id;
         $user->update();
     }
-    auth()->login($user, true);
-    return redirect('dashboard');
+    if ($user->rol == "alumno" || $user->rol == "empresa"){
+        $token = $user->createToken('api-token')->plainTextToken;
+        return redirect('https://app2.projecteg4.ddaw.es/login?token='. $token . "&id=" . $user->id . "&rol=" . $user->rol);
+    }else {
+        auth()->login($user, true);
+        return redirect('dashboard');
+    }
 });
 
 Route::get('/auth/google', [LoginController::class, 'redirectToGoogle']);
