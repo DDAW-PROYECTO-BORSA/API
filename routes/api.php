@@ -37,5 +37,3 @@ Route::apiResource('ciclos', CicloController::class);
 Route::apiResource('alumnos', AlumnosController::class);
 
 Route::post('login', [LoginController::class,'login']);
-Route::get('auth/github/redirect', [LoginController::class,'githubRedirect']);
-Route::get('auth/github/callback', [LoginController::class,'githubCallback']);
