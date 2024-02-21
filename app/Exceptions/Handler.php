@@ -46,7 +46,7 @@ class Handler extends ExceptionHandler
                     ], 400);
                 }
                 elseif ($exception instanceof QueryException) {
-                    return response()->json(['error' => 'Datos no válidos'], 400);
+                    return response()->json(['error' => $exception->getMessage()], 400);
                 }
                 elseif (isset($exception)) {
                     return response()->json(['error' => 'Error en la aplicación ('.get_class($exception).'):'.$exception->getMessage()], 500);
