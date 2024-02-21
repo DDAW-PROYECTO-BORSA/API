@@ -19,7 +19,7 @@ class UserController extends Controller
         return view('users.index', compact('users'));
     }
 
-    
+
 
     /**
      * Show the form for creating a new resource.
@@ -43,6 +43,7 @@ class UserController extends Controller
         $user->rol = 'responsable';
         $user->activado = 1;
         $user->save();
+        return view('users.show', compact('user'));
     }
 
     /**
@@ -97,7 +98,7 @@ class UserController extends Controller
         $users = User::whereNotNull('name')
         ->where('rol', 'alumno')
         ->where('activado', 1)
-        ->paginate(10);        
+        ->paginate(10);
         return view('users.index', compact('users'));
     }
 }
