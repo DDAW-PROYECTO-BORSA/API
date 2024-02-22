@@ -243,13 +243,27 @@ class AlumnosController extends Controller
         $alumno = Alumnos::findOrFail($id);
         $user = User::findOrFail($id);
         $user->name = $request->name;
-        $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->direccion = $request->direccion;
         $user->update();
 
         $alumno->apellido = $request->apellido;
-        $alumno->cv = $request->cv;
+        $alumno->CV = $request->cv;
+
+
+        if ($request->ciclos){
+            foreach ($request->ciclos as $ciclo) {
+                $ciclo = Ciclos::findOrFail($ciclo['id']);
+                $alumno->ciclos()->attach($ciclo->id, [
+                    'finalizacion' => $ciclo['finalizacion'],
+                ]);
+                $ciclo->usuarioResponsable->notify(new ValidarCiclosNotification($alumno, $ciclo));
+                $admin->notify(new ValidarCiclosNotification($alumno, $ciclo));
+
+            }
+        }
+
+
         $alumno->update();
 
         return response()->json(new AlumnoResource($alumno),200);
