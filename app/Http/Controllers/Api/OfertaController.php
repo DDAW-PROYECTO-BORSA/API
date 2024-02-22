@@ -414,6 +414,19 @@ class OfertaController extends Controller
         }
     }
 
+    public function desinscribirse(int $idOferta, int $idAlumno){
+        try {
+            $oferta = Ofertas::findOrFail($idOferta);
+            $alumno = Alumnos::findOrFail($idAlumno);
+    
+            $oferta->alumnos()->detach($alumno);
+            return response()->json('Se ha desapuntado correctamente de la oferta', 200);
+    
+        } catch (Exception $e) {
+            return response()->json($e->getMessage(), 500);
+        }
+    }
+
     /**
      * @OA\Get(
      *      path="/api/ofertas/candidatos/{idOferta}",
