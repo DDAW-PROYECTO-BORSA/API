@@ -122,10 +122,11 @@ class OfertaController extends Controller
     {
         try {
             $admin = User::where('rol', 'administrador')->first();
+            $user = Auth::user();
 
             // Crear oferta
             $oferta = new Ofertas();
-            $empresa = $request->idEmpresa;
+            $oferta->idEmpresa = $user->id;
             $oferta->descripcion = $request->descripcion;
             $oferta->duracion = $request->duracion;
             $oferta->contacto = $request->contacto == null ? $oferta->empresa->contacto : $request->contacto;
@@ -138,10 +139,9 @@ class OfertaController extends Controller
             $oferta->save();
             $oferta->ciclos()->attach($ciclos);
 
-            //$admin->notify(new ValidarCiclosNotification($empresa, $ciclo));
-           // foreach ($oferta->ciclos as $ciclo) {
-           //     $ciclo->usuarioResponsable->notify(new ValidarOfertaNotification($oferta->empresas->user, $oferta));
-          //  }
+            foreach ($oferta->ciclos as $ciclo) {
+                $ciclo->usuarioResponsable->notify(new ValidarOfertaNotification($user, $oferta));
+            }
 
             return response()->json(new OfertaResource($oferta),201);
         } catch (Exception $e) {
