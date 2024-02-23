@@ -111,18 +111,20 @@ class LoginController extends Controller
                 $token = $userWithoutGoogleAuth->createToken('Personal Access Token')->plainTextToken;
                 $user = $userWithoutGoogleAuth;
             } else {
-                return response()->json('Error, usuari no registrat', 500);
+                $missatge = 'Error, usuari no registrat';
+                return  view('auth.error', compact('missatge'));
             }
 
             if($user->rol === 'alumno' || $user->rol === 'empresa'){
-                return redirect('http://localhost:5175/googleCallback#userId=' . $user->id . '&token=' . $token . '&rol=' . $user->rol);
+                return redirect('https://app2.projecteg4.ddaw.es/googleCallback#userId=' . $user->id . '&token=' . $token . '&rol=' . $user->rol);
             } else {
                 return redirect('/');
             }
 
-        } catch (Exception $e) {
+        } catch (Exception $error) {
             // Maneig d'errors
-            return  response()->json(['error' => $e->getMessage()]);
+            $missatge ='hola';
+            return  view('auth.error', compact('missatge'));
         }
     }
 }
