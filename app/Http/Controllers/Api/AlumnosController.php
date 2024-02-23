@@ -339,7 +339,17 @@ class AlumnosController extends Controller
 
             return response()->json($e, 500);
         }
+    }
 
+    public function eliminarCiclo(int $alumnoId, int $cicloId)
+    {
+        try{
+            $alumno = Alumnos::findOrFail($id);
+            $alumno->ciclos()->detach($cicloId);
 
+            return response()->json('', 204);
+        } catch (Exception $e) {
+            return response()->json($e, 500);
+        }
     }
 }

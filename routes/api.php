@@ -28,6 +28,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('ofertas/inscribirse/{idOferta}/{idAlumno}', [OfertaController::class,'inscribirse']);
 Route::post('ofertas/desinscribirse/{idOferta}/{idAlumno}', [OfertaController::class,'inscribirse']);
 Route::get('ofertas/candidatos/{id}', [OfertaController::class,'candidatos']);
+Route::get('alumnos/eliminarCiclo/{idAlumno}/{idCiclo}', [AlumnosController::class,'eliminarCiclo']);
 Route::get('ofertas/inscritasAlumno/', [OfertaController::class, 'ofertasAlumnoInscrito'])->middleware('auth:sanctum');
 
 Route::apiResource('empresas',EmpresaController::class);
