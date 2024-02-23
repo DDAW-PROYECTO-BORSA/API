@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AlumnoRequest;
 use App\Http\Resources\AlumnoCollection;
 use App\Http\Resources\AlumnoResource;
 use App\Models\Alumnos;
@@ -101,44 +102,46 @@ class AlumnosController extends Controller
      *      )
      * )
      */
-    public function store(Request $request)
+    public function store(AlumnoRequest $request)
     {
         try {
             $admin = User::where('rol', 'administrador')->first();
             // Crear usuario
-            $user = new User();
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->password = Hash::make($request->password);
-            $user->direccion = $request->direccion;
-            $user->rol = 'alumno';
-            $user->save();
-            // Crear el alumno asociada al usuario
-            $alumno = new Alumnos();
-            $alumno->apellido = $request->apellido;
-            $alumno->cv = $request->cv;
+            if(User::where('email', $request->email)->first() == null){
+                $user = new User();
+                $user->name = $request->name;
+                $user->email = $request->email;
+                $user->password = Hash::make($request->password);
+                $user->direccion = $request->direccion;
+                $user->rol = 'alumno';
+                $user->save();
+                // Crear el alumno asociada al usuario
+                $alumno = new Alumnos();
+                $alumno->apellido = $request->apellido;
+                $alumno->cv = $request->cv;
 
-            // Guardar el alumno asociada al usuario
-            $user->alumno()->save($alumno);
-            $alumno = Alumnos::findOrFail($user->id);
+                // Guardar el alumno asociada al usuario
+                $user->alumno()->save($alumno);
+                $alumno = Alumnos::findOrFail($user->id);
 
-            $user->notify(new ActivarCuentaNotification($user));
+                $user->notify(new ActivarCuentaNotification($user));
 
-            if ($request->ciclosA){
-                foreach ($request->ciclosA as $cicloA) {
-                    $ciclo = Ciclos::findOrFail($cicloA['id']);
-                    $alumno->ciclos()->attach($ciclo->id, [
-                        'finalizacion' => $cicloA['finalizacion'],
-                    ]);
-                    $ciclo->usuarioResponsable->notify(new ValidarCiclosNotification($alumno, $ciclo));
-                    $admin->notify(new ValidarCiclosNotification($alumno, $ciclo));
-
+                if ($request->ciclosA){
+                    foreach ($request->ciclosA as $cicloA) {
+                        $ciclo = Ciclos::findOrFail($cicloA['id']);
+                        $alumno->ciclos()->attach($ciclo->id, [
+                            'finalizacion' => $cicloA['finalizacion'],
+                        ]);
+                        $ciclo->usuarioResponsable->notify(new ValidarCiclosNotification($alumno, $ciclo));
+                        $admin->notify(new ValidarCiclosNotification($alumno, $ciclo));
+                    }
                 }
+                return response()->json(new AlumnoResource($alumno),201);
+            } else {
+                return response()->json('Error: email ya registrado',400);
             }
 
-            return response()->json(new AlumnoResource($alumno),201);
         } catch (Exception $e) {
-
             return response()->json($e, 500);
         }
     }
@@ -238,7 +241,7 @@ class AlumnosController extends Controller
      * )
      */
 
-    public function update(Request $request, int $id)
+    public function update(AlumnoRequest $request, int $id)
     {
         $admin = User::where('rol', 'administrador')->first();
 
