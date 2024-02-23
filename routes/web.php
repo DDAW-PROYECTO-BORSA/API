@@ -72,7 +72,7 @@ Route::get('/auth/github/callback', function () {
     if ($user->rol == "alumno" || $user->rol == "empresa"){
         $token = $user->createToken('api-token')->plainTextToken;
         return redirect('https://app2.projecteg4.ddaw.es/googleCallback#userId=' . $user->id . '&token=' . $token . '&rol=' . $user->rol);
-    }else {
+    } else {
         auth()->login($user, true);
         return redirect('dashboard');
     }
