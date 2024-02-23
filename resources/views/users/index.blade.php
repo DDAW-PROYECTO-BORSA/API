@@ -9,6 +9,7 @@
                 <tr>
                     <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-sm uppercase font-semibold">Id</th>
                     <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-sm uppercase font-semibold">Nombre</th>
+                    <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-sm uppercase font-semibold">Apellidos</th>
                     <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-sm uppercase font-semibold">Direccion</th>
                     <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-sm uppercase font-semibold">Email</th>
                     <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-sm uppercase font-semibold">Rol</th>
@@ -20,6 +21,12 @@
                     <tr>
                         <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $user->id }}</td>
                         <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $user->name }}</td>
+
+                        <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                            @if($user->alumno)
+                                {{ $user->alumno->apellido }}
+                            @endif
+                        </td>
                         <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $user->direccion }}</td>
                         <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $user->email }}</td>
                         <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $user->rol }}</td>
