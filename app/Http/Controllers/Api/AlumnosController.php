@@ -240,6 +240,9 @@ class AlumnosController extends Controller
 
     public function update(Request $request, int $id)
     {
+        $admin = User::where('rol', 'administrador')->first();
+
+
         $alumno = Alumnos::findOrFail($id);
         $user = User::findOrFail($id);
         $user->name = $request->name;
@@ -250,19 +253,21 @@ class AlumnosController extends Controller
         $alumno->apellido = $request->apellido;
         $alumno->CV = $request->cv;
 
-
-        if ($request->ciclos){
+        
+        if ($request->ciclos) {
             foreach ($request->ciclos as $ciclo) {
                 $ciclo = Ciclos::findOrFail($ciclo['id']);
-                $alumno->ciclos()->attach($ciclo->id, [
-                    'finalizacion' => $ciclo['finalizacion'],
-                ]);
-                $ciclo->usuarioResponsable->notify(new ValidarCiclosNotification($alumno, $ciclo));
-                $admin->notify(new ValidarCiclosNotification($alumno, $ciclo));
 
+                if (!$alumno->ciclos->contains($ciclo->id)) {
+                    $alumno->ciclos()->attach($ciclo->id, [
+                        'finalizacion' => $ciclo['finalizacion'],
+                    ]);
+
+                    $ciclo->usuarioResponsable->notify(new ValidarCiclosNotification($alumno, $ciclo));
+                    $admin->notify(new ValidarCiclosNotification($alumno, $ciclo));
+                }
             }
         }
-
 
         $alumno->update();
 
@@ -325,6 +330,8 @@ class AlumnosController extends Controller
             $alumno->apellido = null;
             $alumno->cv = null;
             $alumno->update();
+            $alumno->ciclos()->detach();
+
 
             return response()->json('', 204);
 
