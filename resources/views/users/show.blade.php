@@ -21,7 +21,6 @@
                         <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $user->direccion }}</td>
                         <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $user->email }}</td>
                         <td class="px-5 py-5 border-b border-gray-200 text-sm">
-                            <a href="{{ route('users.show', $user->id) }}" class="text-blue-500 hover:text-blue-800">Ver</a>
                             <a href="{{ route('users.edit', $user->id) }}" class="text-yellow-500 hover:text-yellow-800 ml-2">Editar</a>
 
                            {{--  @auth

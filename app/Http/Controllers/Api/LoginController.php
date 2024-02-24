@@ -103,28 +103,28 @@ class LoginController extends Controller
             if($existingUser != null){
                 Auth::login($existingUser);
                 $token = $existingUser->createToken('Personal Access Token')->plainTextToken;
+                $user = $existingUser;
             } elseif ($userWithoutGoogleAuth != null) {
                 $userWithoutGoogleAuth->google_id = $user->id;
                 $userWithoutGoogleAuth->save();
                 Auth::login($userWithoutGoogleAuth);
                 $token = $userWithoutGoogleAuth->createToken('Personal Access Token')->plainTextToken;
+                $user = $userWithoutGoogleAuth;
             } else {
-                return response()->json('Error, usuari no registrat', 500);
+                $missatge = 'Error, usuari no registrat';
+                return  view('auth.error', compact('missatge'));
             }
-            setcookie('auth_token', $token, [
-                'expires' => time() + 86400, // Expira en 1 dia
-                'path' => '/',
-                'domain' => 'localhost', // Ajusta al teu domini
-                'secure' => true,
-                'httponly' => true,
-                'samesite' => 'Strict',
-            ]);
 
-            return response()->json(['token' => $token], 200);
+            if($user->rol === 'alumno' || $user->rol === 'empresa'){
+                return redirect('https://app2.projecteg4.ddaw.es/googleCallback#userId=' . $user->id . '&token=' . $token . '&rol=' . $user->rol);
+            } else {
+                return redirect('/');
+            }
 
-        } catch (Exception $e) {
+        } catch (Exception $error) {
             // Maneig d'errors
-            return  response()->json(['error' => $e->getMessage()]);
+            $missatge ='hola';
+            return  view('auth.error', compact('missatge'));
         }
     }
 }
