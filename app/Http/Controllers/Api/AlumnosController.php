@@ -347,7 +347,7 @@ class AlumnosController extends Controller
     public function eliminarCiclo(int $alumnoId, int $cicloId)
     {
         try{
-            $alumno = Alumnos::findOrFail($id);
+            $alumno = Alumnos::findOrFail($alumnoId);
             $alumno->ciclos()->detach($cicloId);
 
             return response()->json('', 204);
