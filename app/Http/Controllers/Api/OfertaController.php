@@ -133,14 +133,14 @@ class OfertaController extends Controller
             $oferta->metodoInscripcion = $request->metodoInscripcion;
             $oferta->email = $request->metodoInscripcion == 'email' ? $request->email : null;
             $oferta->estado = $request->estado;
-            $oferta->validado = 0;
+            $oferta->validado = 1;
 
             $ciclos = $request->ciclos;
             $oferta->save();
             $oferta->ciclos()->attach($ciclos);
 
             foreach ($oferta->ciclos as $ciclo) {
-                $ciclo->usuarioResponsable->notify(new ValidarOfertaNotification($user, $oferta));
+          //      $ciclo->usuarioResponsable->notify(new ValidarOfertaNotification($user, $oferta));
             }
 
             return response()->json(new OfertaResource($oferta),201);
@@ -290,7 +290,7 @@ class OfertaController extends Controller
             $oferta->metodoInscripcion = $request->metodoInscripcion;
             $oferta->email = $request->metodoInscripcion == 'email' ? $request->email : null;
             $oferta->estado = $request->estado;
-            $oferta->validado = 0;
+            $oferta->validado = 1;
 
             $ciclos = $request->ciclos;
             $oferta->update();

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AlumnoRequest;
 use App\Http\Resources\AlumnoCollection;
 use App\Http\Resources\AlumnoResource;
+use App\Http\Requests\AlumnoRequest;
+
 use App\Models\Alumnos;
 use App\Models\User;
 use App\Models\Ciclos;
@@ -114,6 +116,7 @@ class AlumnosController extends Controller
                 $user->password = Hash::make($request->password);
                 $user->direccion = $request->direccion;
                 $user->rol = 'alumno';
+                $user->activado = 1;
                 $user->save();
                 // Crear el alumno asociada al usuario
                 $alumno = new Alumnos();
@@ -124,16 +127,16 @@ class AlumnosController extends Controller
                 $user->alumno()->save($alumno);
                 $alumno = Alumnos::findOrFail($user->id);
 
-                $user->notify(new ActivarCuentaNotification($user));
+               // $user->notify(new ActivarCuentaNotification($user));
 
                 if ($request->ciclosA){
                     foreach ($request->ciclosA as $cicloA) {
                         $ciclo = Ciclos::findOrFail($cicloA['id']);
                         $alumno->ciclos()->attach($ciclo->id, [
-                            'finalizacion' => $cicloA['finalizacion'],
+                        'finalizacion' => $cicloA['finalizacion'], 'validado' => 1,
                         ]);
-                        $ciclo->usuarioResponsable->notify(new ValidarCiclosNotification($alumno, $ciclo));
-                        $admin->notify(new ValidarCiclosNotification($alumno, $ciclo));
+                     //   $ciclo->usuarioResponsable->notify(new ValidarCiclosNotification($alumno, $ciclo));
+                       // $admin->notify(new ValidarCiclosNotification($alumno, $ciclo));
                     }
                 }
                 return response()->json(new AlumnoResource($alumno),201);
@@ -243,16 +246,35 @@ class AlumnosController extends Controller
 
     public function update(AlumnoRequest $request, int $id)
     {
+        $admin = User::where('rol', 'administrador')->first();
+
+
         $alumno = Alumnos::findOrFail($id);
         $user = User::findOrFail($id);
         $user->name = $request->name;
-        $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->direccion = $request->direccion;
         $user->update();
 
         $alumno->apellido = $request->apellido;
-        $alumno->cv = $request->cv;
+        $alumno->CV = $request->cv;
+
+        
+        if ($request->ciclos) {
+            foreach ($request->ciclos as $ciclo) {
+                $ciclo = Ciclos::findOrFail($ciclo['id']);
+
+                if (!$alumno->ciclos->contains($ciclo->id)) {
+                    $alumno->ciclos()->attach($ciclo->id, [
+                        'finalizacion' => $ciclo['finalizacion'], 'validado' => 1,
+                    ]);
+
+                   // $ciclo->usuarioResponsable->notify(new ValidarCiclosNotification($alumno, $ciclo));
+                   // $admin->notify(new ValidarCiclosNotification($alumno, $ciclo));
+                }
+            }
+        }
+
         $alumno->update();
 
         return response()->json(new AlumnoResource($alumno),200);
@@ -314,6 +336,8 @@ class AlumnosController extends Controller
             $alumno->apellido = null;
             $alumno->cv = null;
             $alumno->update();
+            $alumno->ciclos()->detach();
+
 
             return response()->json('', 204);
 
@@ -321,7 +345,17 @@ class AlumnosController extends Controller
 
             return response()->json($e, 500);
         }
+    }
 
+    public function eliminarCiclo(int $alumnoId, int $cicloId)
+    {
+        try{
+            $alumno = Alumnos::findOrFail($alumnoId);
+            $alumno->ciclos()->detach($cicloId);
 
+            return response()->json('', 204);
+        } catch (Exception $e) {
+            return response()->json($e, 500);
+        }
     }
 }

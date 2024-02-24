@@ -26,10 +26,12 @@ class ActivateUserThingsController extends Controller
         $alumno = Alumnos::findOrFail($alumnoId);
         $ciclo = Ciclos::findOrFail($cicloId);
 
-        if ($alumno && $alumno->ciclos()->where('idCiclo', $cicloId)->exists()) {
+        if ($alumno && $alumno->ciclos()->where('idCiclo', $cicloId)->first()->pivot->validado == 0) {
             $alumno->ciclos()->updateExistingPivot($cicloId, ['validado' => 1]);
             return view('notificaciones.validarCiclo', compact('alumno', 'ciclo'));
-        }           
+        } else{
+            return "Este ciclo ya ha sido validado por otro representante o administrador";
+        }
     }
 
     public function validarOferta($id) {
