@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AlumnoCollection;
 use App\Http\Resources\AlumnoResource;
+use App\Http\Requests\AlumnoRequest;
+
 use App\Models\Alumnos;
 use App\Models\User;
 use App\Models\Ciclos;
@@ -112,6 +114,7 @@ class AlumnosController extends Controller
             $user->password = Hash::make($request->password);
             $user->direccion = $request->direccion;
             $user->rol = 'alumno';
+            $user->activado = 1;
             $user->save();
             // Crear el alumno asociada al usuario
             $alumno = new Alumnos();
@@ -122,16 +125,16 @@ class AlumnosController extends Controller
             $user->alumno()->save($alumno);
             $alumno = Alumnos::findOrFail($user->id);
 
-            $user->notify(new ActivarCuentaNotification($user));
+           // $user->notify(new ActivarCuentaNotification($user));
 
             if ($request->ciclosA){
                 foreach ($request->ciclosA as $cicloA) {
                     $ciclo = Ciclos::findOrFail($cicloA['id']);
                     $alumno->ciclos()->attach($ciclo->id, [
-                        'finalizacion' => $cicloA['finalizacion'],
+                        'finalizacion' => $cicloA['finalizacion'], 'validado' => 1,
                     ]);
-                    $ciclo->usuarioResponsable->notify(new ValidarCiclosNotification($alumno, $ciclo));
-                    $admin->notify(new ValidarCiclosNotification($alumno, $ciclo));
+                //    $ciclo->usuarioResponsable->notify(new ValidarCiclosNotification($alumno, $ciclo));
+                 //   $admin->notify(new ValidarCiclosNotification($alumno, $ciclo));
 
                 }
             }
@@ -260,11 +263,11 @@ class AlumnosController extends Controller
 
                 if (!$alumno->ciclos->contains($ciclo->id)) {
                     $alumno->ciclos()->attach($ciclo->id, [
-                        'finalizacion' => $ciclo['finalizacion'],
+                        'finalizacion' => $ciclo['finalizacion'], 'validado' => 1,
                     ]);
 
-                    $ciclo->usuarioResponsable->notify(new ValidarCiclosNotification($alumno, $ciclo));
-                    $admin->notify(new ValidarCiclosNotification($alumno, $ciclo));
+                   // $ciclo->usuarioResponsable->notify(new ValidarCiclosNotification($alumno, $ciclo));
+                   // $admin->notify(new ValidarCiclosNotification($alumno, $ciclo));
                 }
             }
         }
