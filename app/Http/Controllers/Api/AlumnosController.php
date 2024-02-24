@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AlumnoRequest;
 use App\Http\Resources\AlumnoCollection;
 use App\Http\Resources\AlumnoResource;
-use App\Http\Requests\AlumnoRequest;
 
 use App\Models\Alumnos;
 use App\Models\User;
