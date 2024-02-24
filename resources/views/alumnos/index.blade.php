@@ -9,6 +9,7 @@
                 <tr>
                     <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-sm uppercase font-semibold">Id</th>
                     <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-sm uppercase font-semibold">Nombre</th>
+                    <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-sm uppercase font-semibold">Apellidos</th>
                     <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-sm uppercase font-semibold">Direccion</th>
                     <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-sm uppercase font-semibold">Email</th>
                     <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-sm uppercase font-semibold">Acciones</th>
@@ -19,6 +20,7 @@
                     <tr>
                         <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $alumno->user->id }}</td>
                         <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $alumno->user->name }}</td>
+                        <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $alumno->apellidos }}</td>
                         <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $alumno->user->direccion }}</td>
                         <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $alumno->user->email }}</td>
                         <td class="px-5 py-5 border-b border-gray-200 text-sm">

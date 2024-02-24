@@ -33,7 +33,10 @@
                         <td class="px-5 py-5 border-b border-gray-200 text-sm">
                             <a href="{{ route('users.show', $user->id) }}" class="text-blue-500 hover:text-blue-800">Ver</a>
                             <a href="{{ route('users.edit', $user->id) }}" class="text-yellow-500 hover:text-yellow-800 ml-2">Editar</a>
-
+                            @if($user->rol == 'alumno' && auth()->user()->rol === "administrador" && !$user->activado)
+                                <a href="{{ url('/alumnos/activar/' . $user->id ) }}" class="text-green-500 hover:text-green-800">Activar</a>
+                            @endif
+                            //activar ciclos
                            {{--  @auth
                                 @if (Auth::user()->id == $user->idUser)
                                     <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="inline">
