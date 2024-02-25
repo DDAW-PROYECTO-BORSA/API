@@ -16,9 +16,12 @@ class CheckRolMiddleware
      */
     public function handle($request, Closure $next, $rol)
     {
-        if (Auth::user()->rol === $rol)
+        if (Auth::user()->rol === $rol) {
             return $next($request);
-        else
+        } else if ($request->expectsJson()) {
+                return response()->json(['error' => 'No autorizado'], 401);
+        } else {
             return redirect('/login');
+        }
     }
 }

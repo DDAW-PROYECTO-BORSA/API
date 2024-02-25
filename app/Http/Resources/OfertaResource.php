@@ -112,11 +112,13 @@ class OfertaResource extends JsonResource
         return [
             'id'=> $this->id,
             'empresa' => $this->empresas != null ? $this->empresas->user->name : '',
+            'idEmpresa' => $this->empresas->user->id,
             'descripcion' => $this->descripcion,
             'duracion' => $this->duracion,
             'ciclos' => $this->getCiclos(),
             'contacto' => $this->contacto,
             'metodoInscripcion' => $this->metodoInscripcion,
+            'email' => $this->email,
             'estado' => $this->estado,
             'validado' => $this->validado,
         ];
