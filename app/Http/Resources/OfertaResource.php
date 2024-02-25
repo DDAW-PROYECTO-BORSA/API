@@ -117,6 +117,7 @@ class OfertaResource extends JsonResource
             'ciclos' => $this->getCiclos(),
             'contacto' => $this->contacto,
             'metodoInscripcion' => $this->metodoInscripcion,
+            'email' => $this->email,
             'estado' => $this->estado,
             'validado' => $this->validado,
         ];

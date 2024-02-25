@@ -30,7 +30,8 @@ Route::post('ofertas/desinscribirse/{idOferta}/{idAlumno}', [OfertaController::c
 Route::get('ofertas/candidatos/{id}', [OfertaController::class,'candidatos']);
 Route::get('ofertas/inscritasAlumno/', [OfertaController::class, 'ofertasAlumnoInscrito'])->middleware('auth:sanctum');
 
-Route::apiResource('empresas',EmpresaController::class);
+Route::apiResource('empresas',EmpresaController::class)->middleware('auth:sanctum');;
+
 Route::apiResource('ofertas',OfertaController::class)->middleware('auth:sanctum');
 Route::apiResource('familias', FamiliaController::class);
 Route::apiResource('ciclos', CicloController::class);
