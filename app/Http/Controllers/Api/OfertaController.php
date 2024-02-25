@@ -132,6 +132,7 @@ class OfertaController extends Controller
             $oferta->contacto = $request->contacto == null ? $oferta->empresa->contacto : $request->contacto;
             $oferta->metodoInscripcion = $request->metodoInscripcion;
             $oferta->email = $request->metodoInscripcion == 'email' ? $request->email : null;
+            $oferta->estado = $request->estado;
             $oferta->validado = 0;
 
             $ciclos = $request->ciclos;
