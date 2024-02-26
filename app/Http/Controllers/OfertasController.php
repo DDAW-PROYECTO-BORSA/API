@@ -24,7 +24,7 @@ class OfertasController extends Controller
         return view('ofertas.index', compact('ofertas'));
     }
 
-    
+
 
     /**
      * Show the form for creating a new resource.
@@ -82,11 +82,18 @@ class OfertasController extends Controller
 
     public function estadisticas()
     {
-        $stats = Ciclos::withCount('ofertas')
-        ->with('ofertas.alumnos')
-        ->paginate(10);
+        $totalOfertas = Ofertas::withTrashed()->count(); // Obtener el total de ofertas, incluyendo las eliminadas
 
-        return view('ofertas.stats', compact('stats'));
+        $stats = Ciclos::withCount(['ofertas' => function ($query) {
+            $query->withTrashed(); // Incluye ofertas eliminadas
+        }])
+            ->with(['ofertas' => function ($query) {
+                $query->withCount('alumnos')->withTrashed(); // Incluye ofertas eliminadas y cuenta los alumnos
+            }])
+            ->paginate(10);
+
+        return view('ofertas.stats', compact('stats', 'totalOfertas'));
     }
+
 
 }
