@@ -112,7 +112,9 @@ class EmpresaController extends Controller
             $user = new User();
             $user->name = $request->name;
             $user->email = $request->email;
-            $user->password = Hash::make($request->password);
+            if ($request->password != null){
+                $user->password = Hash::make($request->password);
+            }
             $user->direccion = $request->direccion;
             $user->rol = 'empresa';
 
