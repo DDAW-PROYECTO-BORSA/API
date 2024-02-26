@@ -106,6 +106,7 @@ class AlumnosController extends Controller
     public function store(AlumnoRequest $request)
     {
         try {
+            
             $admin = User::where('rol', 'administrador')->first();
             // Crear usuario
             if(User::where('email', $request->email)->first() == null){
