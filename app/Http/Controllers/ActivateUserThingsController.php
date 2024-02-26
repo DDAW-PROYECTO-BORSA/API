@@ -43,14 +43,6 @@ class ActivateUserThingsController extends Controller
             $oferta->estado = "activa";
             $oferta->save();
 
-            $ciclosOferta = $oferta->ciclos;
-            foreach ($ciclosOferta as $cicloOferta) {
-                foreach ($cicloOferta->alumnos as $alumnoOferta) {
-                    Mail::to($alumnoOferta->user->email)->send(new NuevaOfertaMail($oferta));
-                    sleep(1);
-
-                }
-            }
             return view('notificaciones.validarOferta', compact('oferta'));
 
         }

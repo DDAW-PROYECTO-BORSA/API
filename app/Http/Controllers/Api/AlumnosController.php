@@ -138,8 +138,6 @@ class AlumnosController extends Controller
                         ]);
                         $ciclo->usuarioResponsable->notify(new ValidarCiclosNotification($alumno, $ciclo));
                         sleep(1);
-                        $admin->notify(new ValidarCiclosNotification($alumno, $ciclo));
-                        sleep(1);
                     }
                 }
                 return response()->json(new AlumnoResource($alumno),201);
@@ -272,8 +270,6 @@ class AlumnosController extends Controller
                         'finalizacion' => $ciclo['finalizacion'], 'validado' => 1,
                     ]);
                    $ciclo->usuarioResponsable->notify(new ValidarCiclosNotification($alumno, $ciclo));
-                   sleep(1);
-                   $admin->notify(new ValidarCiclosNotification($alumno, $ciclo));
                    sleep(1);
                 }
             }
