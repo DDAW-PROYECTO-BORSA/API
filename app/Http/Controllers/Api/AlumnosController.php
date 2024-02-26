@@ -121,7 +121,7 @@ class AlumnosController extends Controller
                 $alumno->cv = $request->cv;
 
                 // Guardar el alumno asociada al usuario
-                
+
                 $user->save();
                 $user->alumno()->save($alumno);
                 $alumno = Alumnos::findOrFail($user->id);
@@ -253,7 +253,9 @@ class AlumnosController extends Controller
         $user = User::findOrFail($id);
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->password = Hash::make($request->password);
+        if($request->password != null){
+            $user->password = Hash::make($request->password);
+        }
         $user->direccion = $request->direccion;
         $user->update();
 

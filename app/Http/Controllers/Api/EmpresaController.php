@@ -254,7 +254,9 @@ class EmpresaController extends Controller
         $empresa = Empresas::findOrFail($id);
         $user = User::findOrFail($id);
         $user->name = $request->name;
-        $user->password = Hash::make($request->password);
+        if($request->password != null) {
+            $user->password = Hash::make($request->password);
+        }
         $user->direccion = $request->direccion;
         $user->update();
 
