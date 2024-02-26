@@ -127,6 +127,8 @@ class AlumnosController extends Controller
                 $alumno = Alumnos::findOrFail($user->id);
 
                 $user->notify(new ActivarCuentaNotification($user));
+                sleep(1);
+
 
                 if ($request->ciclosA){
                     foreach ($request->ciclosA as $cicloA) {
@@ -135,7 +137,9 @@ class AlumnosController extends Controller
                             'finalizacion' => $cicloA['finalizacion'],
                         ]);
                         $ciclo->usuarioResponsable->notify(new ValidarCiclosNotification($alumno, $ciclo));
+                        sleep(1);
                         $admin->notify(new ValidarCiclosNotification($alumno, $ciclo));
+                        sleep(1);
                     }
                 }
                 return response()->json(new AlumnoResource($alumno),201);
@@ -267,9 +271,10 @@ class AlumnosController extends Controller
                     $alumno->ciclos()->attach($ciclo->id, [
                         'finalizacion' => $ciclo['finalizacion'], 'validado' => 1,
                     ]);
-
                    $ciclo->usuarioResponsable->notify(new ValidarCiclosNotification($alumno, $ciclo));
+                   sleep(1);
                    $admin->notify(new ValidarCiclosNotification($alumno, $ciclo));
+                   sleep(1);
                 }
             }
         }
