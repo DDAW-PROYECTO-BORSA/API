@@ -31,7 +31,7 @@ Route::get('ofertas/candidatos/{id}', [OfertaController::class,'candidatos']);
 Route::delete('alumnos/eliminarCiclo/{idAlumno}/{idCiclo}', [AlumnosController::class, 'eliminarCiclo']);
 Route::get('ofertas/inscritasAlumno/', [OfertaController::class, 'ofertasAlumnoInscrito'])->middleware('auth:sanctum');
 
-Route::apiResource('empresas',EmpresaController::class)->middleware('auth:sanctum');;
+Route::apiResource('empresas',EmpresaController::class);
 
 Route::apiResource('ofertas',OfertaController::class)->middleware('auth:sanctum');
 Route::apiResource('familias', FamiliaController::class);
