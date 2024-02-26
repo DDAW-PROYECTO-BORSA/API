@@ -40,6 +40,7 @@ Route::apiResource('alumnos', AlumnosController::class);
 Route::post('login', [LoginController::class,'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/empresas', [EmpresaController::class, 'index'])->name('empresa.index');
     Route::get('/empresas/{id}', [EmpresaController::class, 'show'])->name('empresa.show');
     Route::patch('/empresas/{id}', [EmpresaController::class, 'update'])->name('empresa.edit');
     Route::delete('/empresas/{id}', [EmpresaController::class, 'destroy'])->name('empresa.destroy');
