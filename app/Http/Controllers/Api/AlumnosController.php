@@ -115,13 +115,14 @@ class AlumnosController extends Controller
                 $user->password = Hash::make($request->password);
                 $user->direccion = $request->direccion;
                 $user->rol = 'alumno';
-                $user->save();
                 // Crear el alumno asociada al usuario
                 $alumno = new Alumnos();
                 $alumno->apellido = $request->apellido;
                 $alumno->cv = $request->cv;
 
                 // Guardar el alumno asociada al usuario
+                
+                $user->save();
                 $user->alumno()->save($alumno);
                 $alumno = Alumnos::findOrFail($user->id);
 

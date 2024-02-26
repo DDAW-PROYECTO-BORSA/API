@@ -113,7 +113,6 @@ class EmpresaController extends Controller
             $user->password = Hash::make($request->password);
             $user->direccion = $request->direccion;
             $user->rol = 'empresa';
-            $user->activado = 1;
 
             $user->save();
             // Crear la empresa asociada al usuario
@@ -124,6 +123,8 @@ class EmpresaController extends Controller
 
             // Guardar la empresa asociada al usuario
             $user->empresa()->save($empresa);
+            $user->notify(new ActivarCuentaNotification($user));
+
 
             return response()->json(new EmpresaResource($empresa),201);
             }
