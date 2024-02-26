@@ -51,7 +51,7 @@ Route::resource('empresas', EmpresasController::class)->middleware('rol:administ
 
 Route::get('/users/activos', [UserController::class, 'alumnosActivos'])->name('users.alumnosActivos');
 
-Route::resource('users', UserController::class);
+Route::resource('users', UserController::class)->middleware('auth:sanctum');
 Route::get('/users/cambiarContrasenya/{id}', [UserController::class, 'cambiarContrasenya']);
 
 

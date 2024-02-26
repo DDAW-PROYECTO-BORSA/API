@@ -131,16 +131,16 @@ class OfertaController extends Controller
             $oferta->duracion = $request->duracion;
             $oferta->contacto = $request->contacto == null ? $oferta->empresa->contacto : $request->contacto;
             $oferta->metodoInscripcion = $request->metodoInscripcion;
-            $oferta->email = $request->metodoInscripcion == 'email' ? $request->email : null;
+            $oferta->email = $request->metodoInscripcion == 'Email' ? $request->email : null;
             $oferta->estado = $request->estado;
-            $oferta->validado = 1;
+            $oferta->validado = 0;
 
             $ciclos = $request->ciclos;
             $oferta->save();
             $oferta->ciclos()->attach($ciclos);
 
             foreach ($oferta->ciclos as $ciclo) {
-          //      $ciclo->usuarioResponsable->notify(new ValidarOfertaNotification($user, $oferta));
+                $ciclo->usuarioResponsable->notify(new ValidarOfertaNotification($user, $oferta));
             }
 
             return response()->json(new OfertaResource($oferta),201);
@@ -290,7 +290,7 @@ class OfertaController extends Controller
             $oferta->metodoInscripcion = $request->metodoInscripcion;
             $oferta->email = $request->metodoInscripcion == 'email' ? $request->email : null;
             $oferta->estado = $request->estado;
-            $oferta->validado = 1;
+            $oferta->validado = 0;
 
             $ciclos = $request->ciclos;
             $oferta->update();
@@ -418,10 +418,10 @@ class OfertaController extends Controller
         try {
             $oferta = Ofertas::findOrFail($idOferta);
             $alumno = Alumnos::findOrFail($idAlumno);
-    
+
             $oferta->alumnos()->detach($alumno);
             return response()->json('Se ha desapuntado correctamente de la oferta', 200);
-    
+
         } catch (Exception $e) {
             return response()->json($e->getMessage(), 500);
         }

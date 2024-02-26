@@ -17,7 +17,7 @@
     </head>
     <body class="font-sans text-gray-900 antialiased">
         <div class="text-center min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
-            <h1 class="text-5xl dark:text-white font-semibold text-gray-800 mb-4">Bienvenido a BorsaBatoi</h1>
+            <h1 class="text-4xl dark:text-white font-semibold text-gray-800 mb-4">Bienvenido a BorsaBatoi</h1>
             <h2 class="text-2xl dark:text-white text-gray-600 mb-6">La plataforma de gestión de la bolsa de trabajo del CIPFP Batoi.</h2>
             <h2 class="text-xl dark:text-white text-gray-600 mb-6">Si eres alumno o empresa, inicia sesión <a class="font-semibold hover:text-blue-600" href="https://app2.projecteg4.ddaw.es/">AQUÍ</a></h2>
             <h2 class="text-xl dark:text-white text-gray-600 mb-6">Por favor, inicia sesión para continuar</h2>

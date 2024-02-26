@@ -31,12 +31,20 @@ class AlumnoRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => 'required',
-            'apellido' => 'required',
-            'email' => 'email:rfc,dns',
-            'password' => ['required', Password::min(8)->letters()->mixedCase()->numbers()],
             'direccion' => 'required|min:4',
+            'apellido' => 'required'
         ];
+
+        if($this->method() == 'post'){
+            $rules['email'] = 'email:rfc,dns';
+            $rules['password'] = ['required', Password::min(8)->letters()->mixedCase()->numbers()];
+            $rules['CV'] = 'required';
+        } elseif ($this->method() == 'put' || $this->method() == 'patch') {
+            $rules['password'] = ['sometimes', Password::min(8)->letters()->mixedCase()->numbers()];
+        }
+        return $rules;
+
     }
 }

@@ -7,8 +7,11 @@ use App\Http\Requests\EmpresaRequest;
 use App\Http\Resources\EmpresaCollection;
 use App\Http\Resources\EmpresaResource;
 use App\Models\Empresas;
+use App\Models\Ofertas;
 use App\Models\User;
 use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class EmpresaController extends Controller
@@ -173,9 +176,28 @@ class EmpresaController extends Controller
 
     public function show(int $id)
     {
+
+        $user = Auth::user();
         $empresa = Empresas::findOrFail($id);
-        return response()->json(new EmpresaResource($empresa), 200);
+
+        if($user->rol == 'empresa' && $user->id == $id){
+            return response()->json(new EmpresaResource($empresa), 200);
+        } elseif($user->rol == 'alumno'){
+            $ciclosAlumno = $user->alumno->ciclos->pluck('id');
+            $ofertas = Ofertas::whereHas('ciclos',function ($query) use ($ciclosAlumno) {
+                $query->whereIn('idCiclo', $ciclosAlumno->toArray())->where('estado','activa')->where('validado',true);
+            })->get();
+            if(!$ofertas->isEmpty()){
+                return response()->json(new EmpresaResource($empresa), 200);
+            } else {
+                return response()->json(['error' => 'La empresa no tiene ofertas activas para los ciclos cursados por el alumno'], 404);
+            }
+        } else {
+            return response()->json(['error' => 'No tienes permitido ver la empresa'], 403);
+        }
+
     }
+
 
     /**
      * Update the specified resource in storage.
