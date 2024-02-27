@@ -16,6 +16,7 @@
             </thead>
             <tbody>
                 @foreach ($ofertas as $oferta)
+                @if({{ $oferta->empresa}})
                     <tr>
                         <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $oferta->id }}</td>
                         <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $oferta->empresas->user->name }}</td>
@@ -31,6 +32,7 @@
                             </form>
                         </td>
                     </tr>
+                @endif
                 @endforeach
             </tbody>
         </table>
